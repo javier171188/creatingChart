@@ -1,6 +1,3 @@
-import { Handle, Position } from '../../../../react-flow/packages/reactflow/dist/esm/index';
-
-
 export function TextNode({data:{barIcon}}) {
   
 
