@@ -1,4 +1,4 @@
-{
+{"chart":{
   "name": "my-react-flow-app",
   "private": true,
   "version": "0.0.0",
@@ -23,4 +23,4 @@
     "eslint-plugin-react-refresh": "^0.3.4",
     "vite": "^4.3.2"
   }
-}
+}}
