@@ -59,6 +59,16 @@ function Flow() {
         const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
         console.log(inputEdge)
         console.log(outputEdge)
+        console.log(node)
+        setEdges(edges=>{
+            const newEdges = edges.filter(edge=> ![inputEdge.id, outputEdge.id].includes(edge.id))
+            const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
+            const newOutputEdge = {id:`${node.id}-${outputEdge.target}`, source:node.id, target:outputEdge.target}
+            newEdges.push(newInputEdge)
+            newEdges.push(newOutputEdge)
+            return newEdges
+        })
+        setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
     }
    
   }
