@@ -1,0 +1,32 @@
+{"chart":{
+    "nodes": [
+        {
+            "id": "start",
+            "position": {
+                "x": 400,
+                "y": 100
+            },
+            "data": {
+                "label": "Start"
+            }
+        },
+        {
+            "id": "end",
+            "position": {
+                "x": 400,
+                "y": 300
+            },
+            "data": {
+                "label": "End"
+            }
+        }
+    ],
+    "edges": [
+        {
+            "id": "start-end",
+            "source": "start",
+            "target": "end"
+        }
+    ]
+}
+}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, { 
   MiniMap,
   Controls,
@@ -7,11 +7,11 @@ import ReactFlow, {
   useEdgesState,
   addEdge,
 }from '../../../react-flow/packages/reactflow/dist/esm/index';
-
 import '../../../react-flow/packages/reactflow/dist/style.css';
 
-// import chart from '../chart.json';
+import {TextNode} from './components/TextNode'
 
+// import chart from '../chart.json';
 // const initialNodes = [
 //   { id: '1', position: { x: 400, y: 100 }, data: { label: '1' } },
 //   { id: '2', position: { x: 400, y: 200 }, data: { label: '2' } },
@@ -26,9 +26,11 @@ import '../../../react-flow/packages/reactflow/dist/style.css';
 //                       { id: 'e3-5', source: '3', target: '5' }, 
 //                       { id: 'e4-5', source: '4', target: '5' },
 //                       { id: 'e5-6', source: '5', target: '6' }];
-
 // const chart = {nodes:initialNodes,edges:initialEdges }
 
+const initialNodes=[
+  { id: 'sampleTextNode', type: 'textNode', position: { x: 10, y: 10 }, data:{barIcon:true}},
+]
 
 export default function App() {
   
@@ -37,15 +39,34 @@ export default function App() {
      return response.json()
     }).then(({edges, nodes})=>{
       setEdges(edges)
-      setNodes(nodes)
+      const newNodes = [...initialNodes,...nodes]
+      setNodes(newNodes)
     })
   },[])
 
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const nodeTypes = useMemo(() => ({ 
+    textNode: TextNode
+  }), [])
+
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
  
+  function onNodeDragStop(event, node){
+    if(node.id==='sampleTextNode'){
+      setNodes(nodes=> nodes.map(node=> node.id==='sampleTextNode'
+                                                ? {...node, position:{ x: 10, y: 10 }} 
+                                                :node
+        )
+      )
+      const newNode = {id:`textNode-${(new Date()).getTime()}`, type: 'textNode', position: node.position, data:{barIcon:false}}
+      setNodes(nodes=>[...nodes,newNode])
+    }
+
+  }  
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlow
@@ -54,6 +75,8 @@ export default function App() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        onNodeDragStop={onNodeDragStop}
       >
         <Controls />
         <MiniMap />
