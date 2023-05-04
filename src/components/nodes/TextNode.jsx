@@ -1,4 +1,4 @@
-import { Handle, Position } from "../../../../react-flow/packages/reactflow/dist/esm/index";
+import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm/index";
 
 export function TextNode() {
   return (

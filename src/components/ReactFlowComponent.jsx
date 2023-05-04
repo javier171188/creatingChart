@@ -10,13 +10,11 @@ import ReactFlow, {
     addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
-import { TextNode } from './TextNode'
-import { PlusNode } from './PlusNode';
+import { TextNode } from './nodes/TextNode'
+import { PlusNode } from './nodes/PlusNode';
 import LeftBar from './LeftBar';
 
-const initialNodes=[
-    // { id: 'sampleTextNode', type: 'textNode', position: { x: 10, y: 10 }, data:{barIcon:true}},
-  ]
+const initialNodes=[ ]
   
 
 function Flow() {
@@ -25,7 +23,6 @@ function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-
   const [latestNodeId, setLatestNodeId] = useState(null)
 
   useEffect(()=>{
@@ -75,7 +72,6 @@ function Flow() {
         })
         setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
     }
-   
   }
 
   const onDragOver = useCallback((event) => {

@@ -13,21 +13,18 @@ export default () => {
       <div 
         style={styles.iconNode} 
         onDragStart={(event) => onDragStart(event, 'textNode')} 
-       
         draggable>
         Input Node
       </div>
       <div  
         style={styles.iconNode} 
         onDragStart={(event) => onDragStart(event, 'textNode')} 
-       
         draggable>
         Default Node
       </div>
       <div 
         style={styles.iconNode} 
         onDragStart={(event) => onDragStart(event, 'textNode')} 
-       
         draggable>
         Output Node
       </div>
@@ -55,4 +52,4 @@ const styles = {
     boxShadow: '4px 5px 5px -1px rgba(0,0,0,0.61)'
   }
     
-}
+} 
