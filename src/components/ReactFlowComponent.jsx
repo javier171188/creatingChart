@@ -15,7 +15,7 @@ import { PlusNode } from './PlusNode';
 import LeftBar from './LeftBar';
 
 const initialNodes=[
-    { id: 'sampleTextNode', type: 'textNode', position: { x: 10, y: 10 }, data:{barIcon:true}},
+    // { id: 'sampleTextNode', type: 'textNode', position: { x: 10, y: 10 }, data:{barIcon:true}},
   ]
   
 
@@ -53,21 +53,21 @@ function Flow() {
   }), [])
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
  
-  function onNodeDragStop(event, node){
-    console.log(event)
-    if(node.id==='sampleTextNode'){
-      setNodes(nodes=> nodes.map(node=> node.id==='sampleTextNode'
-                                                ? {...node, position:{ x: 10, y: 10 }} 
-                                                :node
-        )
-      )
-      const newNode = {id:`textNode-${(new Date()).getTime()}`, type: 'textNode', position: node.position, data:{barIcon:false}}
-      setLatestNodeId(newNode.id)
-      setNodes(nodes=>[...nodes,newNode])
-    }else{
-        createIfIntersectsPlusNode(node)
-    }
-  }  
+  // function onNodeDragStop(event, node){
+  //   console.log(event)
+  //   if(node.id==='sampleTextNode'){
+  //     setNodes(nodes=> nodes.map(node=> node.id==='sampleTextNode'
+  //                                               ? {...node, position:{ x: 10, y: 10 }} 
+  //                                               :node
+  //       )
+  //     )
+  //     const newNode = {id:`textNode-${(new Date()).getTime()}`, type: 'textNode', position: node.position, data:{barIcon:false}}
+  //     setLatestNodeId(newNode.id)
+  //     setNodes(nodes=>[...nodes,newNode])
+  //   }else{
+  //       createIfIntersectsPlusNode(node)
+  //   }
+  // }  
 
   function createIfIntersectsPlusNode(node){
     //There should be only one "plus" intersecting nodes. 
@@ -131,7 +131,7 @@ function Flow() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
-            onNodeDragStop={onNodeDragStop} 
+           // onNodeDragStop={onNodeDragStop} 
             onDragOver={onDragOver}
             onDrop={onDrop}
          />
@@ -142,14 +142,15 @@ function Flow() {
 function FlowWithProvider() {
   return (
     <ReactFlowProvider>
-      <div style={styles.draggingAreaContainer}>
-      <LeftBar/>
-      <Flow>
+      <div style={styles.barAndDragging}>
+        <LeftBar/>
+        <div style={styles.draggingAreaContainer}>
+        <Flow>
+        </Flow>
         <Controls />
         <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
-      </Flow>
-     </div>
+        </div>
+      </div>
     </ReactFlowProvider>
   );
 }
@@ -157,9 +158,11 @@ function FlowWithProvider() {
 export default FlowWithProvider;
 
 const styles = {
+  barAndDragging:{
+    display:'flex'
+  },
   draggingAreaContainer:{
     width: "80vw",
     height: "100vh",
-    display: 'flex'
   }
 }
