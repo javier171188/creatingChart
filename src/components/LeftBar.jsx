@@ -1,33 +1,22 @@
 import React from 'react';
+import { LeftBarIcon } from './LeftBarIcon';
 
 export default () => {
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData('application/reactflow', nodeType);
-    event.dataTransfer.effectAllowed = 'move';
-  };
-  
-  
   return (
     <aside style={styles.aside}>
       <div style={styles.barTitle}>Drag a node to add it to the flow</div>
-      <div 
-        style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'textNode')} 
-        draggable>
-        Input Node
+      <div style={styles.iconsContainer}>
+        <LeftBarIcon shape='square' size={15}/>
+        <LeftBarIcon shape='rectangle' size={18} />
+        <LeftBarIcon shape='circle' size={17}/>
+        <LeftBarIcon shape='triangle' size={17}/>
+        <LeftBarIcon shape='triangleDown' size={17}/>
+        <LeftBarIcon shape='diamond'/>
+        <LeftBarIcon/>
+        <LeftBarIcon/>
+        <LeftBarIcon/>
       </div>
-      <div  
-        style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'textNode')} 
-        draggable>
-        Default Node
-      </div>
-      <div 
-        style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'textNode')} 
-        draggable>
-        Output Node
-      </div>
+      
     </aside>
   );
 };
@@ -50,6 +39,12 @@ const styles = {
     height: 50,
     borderRadius: 12,
     boxShadow: '4px 5px 5px -1px rgba(0,0,0,0.61)'
+  },
+  iconsContainer:{
+    display:'flex',
+    flexWrap: 'wrap',
+    width: 150,
+    justifyContent:'flex-start',
+    marginLeft: 10
   }
-    
 } 
