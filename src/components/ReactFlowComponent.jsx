@@ -1,4 +1,4 @@
-import React,{ useCallback, useEffect, useMemo } from 'react'
+import React,{ useCallback, useEffect, useMemo, useState } from 'react'
 import ReactFlow, { 
     ReactFlowProvider,
     useReactFlow,
@@ -20,6 +20,11 @@ const initialNodes=[
 
 function Flow() {
   const { getIntersectingNodes } = useReactFlow();
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const [latestNodeId, setLatestNodeId] = useState(null)
+
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
      return response.json()
@@ -29,8 +34,17 @@ function Flow() {
       setNodes(newNodes)
     })
   },[])
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const numberOfNodes = nodes.length
+  useEffect(()=>{
+    setTimeout(()=>{
+        const checkingNode = nodes.find(node=>node.id===latestNodeId)
+        if(checkingNode){ 
+          createIfIntersectsPlusNode(checkingNode)
+         }
+    },100)   
+  },[numberOfNodes])
+ 
+  
 
   const nodeTypes = useMemo(() => ({ 
     textNode: TextNode,
@@ -46,20 +60,21 @@ function Flow() {
         )
       )
       const newNode = {id:`textNode-${(new Date()).getTime()}`, type: 'textNode', position: node.position, data:{barIcon:false}}
+      setLatestNodeId(newNode.id)
       setNodes(nodes=>[...nodes,newNode])
+    }else{
+        createIfIntersectsPlusNode(node)
     }
-    createIfIntersectsPlusNode(node)
   }  
 
   function createIfIntersectsPlusNode(node){
+    //There should be only one "plus" intersecting nodes. 
+    //TODO: change children position, add new plus nodes
     const interNodes = getIntersectingNodes(node)
-    //There should be only one "plus" intersecting nodes. TODO: change children position
+    
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
         const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
         const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
-        console.log(inputEdge)
-        console.log(outputEdge)
-        console.log(node)
         setEdges(edges=>{
             const newEdges = edges.filter(edge=> ![inputEdge.id, outputEdge.id].includes(edge.id))
             const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
@@ -80,7 +95,8 @@ function Flow() {
             onConnect={onConnect}
             nodeTypes={nodeTypes}
             onNodeDragStop={onNodeDragStop}
-         />;
+         />
+        
 }
 
 
