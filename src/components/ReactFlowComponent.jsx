@@ -12,6 +12,7 @@ import ReactFlow, {
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { TextNode } from './TextNode'
 import { PlusNode } from './PlusNode';
+import LeftBar from './LeftBar';
 
 const initialNodes=[
     { id: 'sampleTextNode', type: 'textNode', position: { x: 10, y: 10 }, data:{barIcon:true}},
@@ -53,6 +54,7 @@ function Flow() {
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
  
   function onNodeDragStop(event, node){
+    console.log(event)
     if(node.id==='sampleTextNode'){
       setNodes(nodes=> nodes.map(node=> node.id==='sampleTextNode'
                                                 ? {...node, position:{ x: 10, y: 10 }} 
@@ -103,13 +105,24 @@ function Flow() {
 function FlowWithProvider() {
   return (
     <ReactFlowProvider>
+      <div style={styles.draggingAreaContainer}>
+      <LeftBar/>
       <Flow>
         <Controls />
         <MiniMap />
         <Background variant="dots" gap={12} size={1} />
       </Flow>
+     </div>
     </ReactFlowProvider>
   );
 }
 
 export default FlowWithProvider;
+
+const styles = {
+  draggingAreaContainer:{
+    width: "80vw",
+    height: "100vh",
+    display: 'flex'
+  }
+}
