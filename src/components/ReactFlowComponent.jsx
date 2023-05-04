@@ -89,7 +89,6 @@ function Flow() {
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
-      console.log(type)
       // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
@@ -99,18 +98,23 @@ function Flow() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      const newId = `${(new Date()).getTime()}` 
       const newNode = {
-        id: `${(new Date()).getTime()}`,
+        id: newId,
         type,
         position,
         data: { label: `${type} node` },
       };
 
       setNodes((nds) => nds.concat(newNode));
+      setLatestNodeId(newId)
     },
     [reactFlowInstance]
   );
 
+  function onNodeDragStop(event, node){
+    createIfIntersectsPlusNode(node)
+  }
   
   return <div style={styles.draggingAreaContainer} ref={reactFlowWrapper}>
          <ReactFlow 
@@ -120,7 +124,7 @@ function Flow() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
-           // onNodeDragStop={onNodeDragStop} 
+            onNodeDragStop={onNodeDragStop} 
             onDragOver={onDragOver}
             onDrop={onDrop}
             onInit={setReactFlowInstance}

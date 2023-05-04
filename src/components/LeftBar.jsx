@@ -5,31 +5,29 @@ export default () => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
   };
-  const onDragEnd = (event) =>{
-    console.log(event)
-  }
+  
   
   return (
     <aside style={styles.aside}>
       <div style={styles.barTitle}>Drag a node to add it to the flow</div>
       <div 
         style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'input')} 
-        onDragEnd={onDragEnd}
+        onDragStart={(event) => onDragStart(event, 'textNode')} 
+       
         draggable>
         Input Node
       </div>
       <div  
         style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'default')} 
-        onDragEnd={onDragEnd}
+        onDragStart={(event) => onDragStart(event, 'textNode')} 
+       
         draggable>
         Default Node
       </div>
       <div 
         style={styles.iconNode} 
-        onDragStart={(event) => onDragStart(event, 'output')} 
-        onDragEnd={onDragEnd}
+        onDragStart={(event) => onDragStart(event, 'textNode')} 
+       
         draggable>
         Output Node
       </div>

@@ -3,7 +3,6 @@ import ReactFlowComponent from './components/ReactFlowComponent'
 
 
 
-// import chart from '../chart.json';
 // const initialNodes = [
 //   { id: '1', position: { x: 400, y: 100 }, data: { label: '1' } },
 //   { id: '2', position: { x: 400, y: 200 }, data: { label: '2' } },
