@@ -10,9 +10,14 @@ import ReactFlow, {
     addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
+import LeftBar from './LeftBar';
 import { TextNode } from './nodes/TextNode'
 import { PlusNode } from './nodes/PlusNode';
-import LeftBar from './LeftBar';
+import { SquareNode } from './nodes/SquareNode';
+import { RectangleNode } from './nodes/RectangleNode';
+import { CircleNode } from './nodes/CircleNode';
+import { TriangleNode } from './nodes/TriangleNode';
+import { TriangleDownNode } from './nodes/TriangleDownNode';
 
 const initialNodes=[ ]
   
@@ -47,6 +52,11 @@ function Flow() {
   
 
   const nodeTypes = useMemo(() => ({ 
+    triangle: TriangleNode,
+    triangleDown: TriangleDownNode,
+    circle: CircleNode,
+    square:SquareNode,
+    rectangle: RectangleNode,
     textNode: TextNode,
     plusNode:PlusNode
   }), [])
@@ -89,7 +99,7 @@ function Flow() {
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
+      
       const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,

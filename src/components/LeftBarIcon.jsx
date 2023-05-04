@@ -3,8 +3,8 @@ import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
 export function LeftBarIcon({shape='star', size=20}){
-    const onDragStart = (event, nodeType) => {
-        event.dataTransfer.setData('application/reactflow', nodeType);
+    const onDragStart = (event) => {
+        event.dataTransfer.setData('application/reactflow', shape);
         event.dataTransfer.effectAllowed = 'move';
       };
 
@@ -29,7 +29,7 @@ export function LeftBarIcon({shape='star', size=20}){
 
     return <div 
                 style={styles.iconNode} 
-                onDragStart={(event) => onDragStart(event, 'textNode')} 
+                onDragStart={(event) => onDragStart(event)} 
                 draggable>
                 {getIcon()}
             </div>
