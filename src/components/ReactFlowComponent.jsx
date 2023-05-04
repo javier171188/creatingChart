@@ -1,10 +1,10 @@
-import React,{ useCallback, useEffect, useMemo, useState } from 'react'
+import React,{ useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactFlow, { 
     ReactFlowProvider,
     useReactFlow,
     MiniMap,
     Controls,
-    Background,
+    // Background,
     useNodesState,
     useEdgesState,
     addEdge,
@@ -21,8 +21,10 @@ const initialNodes=[
 
 function Flow() {
   const { getIntersectingNodes } = useReactFlow();
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   const [latestNodeId, setLatestNodeId] = useState(null)
 
@@ -53,21 +55,7 @@ function Flow() {
   }), [])
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
  
-  // function onNodeDragStop(event, node){
-  //   console.log(event)
-  //   if(node.id==='sampleTextNode'){
-  //     setNodes(nodes=> nodes.map(node=> node.id==='sampleTextNode'
-  //                                               ? {...node, position:{ x: 10, y: 10 }} 
-  //                                               :node
-  //       )
-  //     )
-  //     const newNode = {id:`textNode-${(new Date()).getTime()}`, type: 'textNode', position: node.position, data:{barIcon:false}}
-  //     setLatestNodeId(newNode.id)
-  //     setNodes(nodes=>[...nodes,newNode])
-  //   }else{
-  //       createIfIntersectsPlusNode(node)
-  //   }
-  // }  
+  
 
   function createIfIntersectsPlusNode(node){
     //There should be only one "plus" intersecting nodes. 
@@ -99,32 +87,33 @@ function Flow() {
     (event) => {
       event.preventDefault();
 
-      //const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
       console.log(type)
-      // // check if the dropped element is valid
-      // if (typeof type === 'undefined' || !type) {
-      //   return;
-      // }
+      // check if the dropped element is valid
+      if (typeof type === 'undefined' || !type) {
+        return;
+      }
 
-      // const position = reactFlowInstance.project({
-      //   x: event.clientX - reactFlowBounds.left,
-      //   y: event.clientY - reactFlowBounds.top,
-      // });
-      // const newNode = {
-      //   id: getId(),
-      //   type,
-      //   position,
-      //   data: { label: `${type} node` },
-      // };
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const newNode = {
+        id: `${(new Date()).getTime()}`,
+        type,
+        position,
+        data: { label: `${type} node` },
+      };
 
-      // setNodes((nds) => nds.concat(newNode));
+      setNodes((nds) => nds.concat(newNode));
     },
-    []
+    [reactFlowInstance]
   );
 
   
-  return <ReactFlow 
+  return <div style={styles.draggingAreaContainer} ref={reactFlowWrapper}>
+         <ReactFlow 
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
@@ -134,7 +123,10 @@ function Flow() {
            // onNodeDragStop={onNodeDragStop} 
             onDragOver={onDragOver}
             onDrop={onDrop}
+            onInit={setReactFlowInstance}
          />
+      </div>
+ 
         
 }
 
@@ -144,7 +136,7 @@ function FlowWithProvider() {
     <ReactFlowProvider>
       <div style={styles.barAndDragging}>
         <LeftBar/>
-        <div style={styles.draggingAreaContainer}>
+        <div >
         <Flow>
         </Flow>
         <Controls />
