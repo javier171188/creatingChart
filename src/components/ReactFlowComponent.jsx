@@ -4,7 +4,7 @@ import ReactFlow, {
     useReactFlow,
     MiniMap,
     Controls,
-    // Background,
+    //Background,
     useNodesState,
     useEdgesState,
     addEdge,
@@ -18,6 +18,7 @@ import { RectangleNode } from './nodes/RectangleNode';
 import { CircleNode } from './nodes/CircleNode';
 import { TriangleNode } from './nodes/TriangleNode';
 import { TriangleDownNode } from './nodes/TriangleDownNode';
+import { StartStopNode } from './nodes/StartStopNode';
 
 const initialNodes=[ ]
   
@@ -52,6 +53,7 @@ function Flow() {
   
 
   const nodeTypes = useMemo(() => ({ 
+    startStopNode: StartStopNode,
     triangle: TriangleNode,
     triangleDown: TriangleDownNode,
     circle: CircleNode,
@@ -104,6 +106,7 @@ function Flow() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      //TODO: The ids should have info about the type of node
       const newId = `${(new Date()).getTime()}` 
       const newNode = {
         id: newId,
@@ -146,7 +149,7 @@ function FlowWithProvider() {
     <ReactFlowProvider>
       <div style={styles.barAndDragging}>
         <LeftBar/>
-        <div >
+        <div style={styles.draggingArea}>
         <Flow>
         </Flow>
         <Controls />
@@ -166,5 +169,8 @@ const styles = {
   draggingAreaContainer:{
     width: "80vw",
     height: "100vh",
+  },
+  draggingArea:{
+    background:'rgba(248,248,248,0.85)'
   }
 }

@@ -15,8 +15,13 @@ const styles = {
     nodeContainer:{
         width: 75,
         height: 75,
-        border:'solid',
         borderRadius: '50%',
-        textAlign:'center'
+        border:'solid',
+        textAlign:'center',
+        borderColor:'rgb(61,159,255)',
+        backgroundColor:'white',
+        boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
+        borderWidth: 1,
+        padding:10
     }
 }
