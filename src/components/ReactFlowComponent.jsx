@@ -167,7 +167,7 @@ const styles = {
     display:'flex'
   },
   draggingAreaContainer:{
-    width: "80vw",
+    width: "calc(100vw - 120px)",
     height: "100vh",
   },
   draggingArea:{
