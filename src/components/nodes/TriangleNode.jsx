@@ -17,8 +17,8 @@ const styles = {
     height: 0, 
     borderLeft: "100px solid transparent",
     borderRight: "100px solid transparent",
-    borderBottom: "100px solid #f00",
-    
+    borderBottom: "100px solid rgb(255,194,55)",
+    color:'white',
     },
     textContainer:{
         boxSizing: "border-box",
