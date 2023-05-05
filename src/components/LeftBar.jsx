@@ -15,6 +15,7 @@ export default () => {
         <LeftBarIcon/>
         <LeftBarIcon/>
         <LeftBarIcon/>
+        <LeftBarIcon/>
       </div>
       
     </aside>
@@ -25,11 +26,14 @@ export default () => {
 const styles = {
   aside: {
     backgroundColor:'#eaf1ff',
+    width: 120
   },
   barTitle:{
     padding: 10,
     fontWeight: 'bold',
     fontSize:14,
+    width: "90%",
+    //color:'blue'
   },
   iconNode:{
     backgroundColor:'#f7f3f3',
@@ -43,7 +47,7 @@ const styles = {
   iconsContainer:{
     display:'flex',
     flexWrap: 'wrap',
-    width: 150,
+    width: 110,
     justifyContent:'flex-start',
     marginLeft: 10
   }
