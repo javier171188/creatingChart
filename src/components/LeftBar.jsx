@@ -1,54 +1,35 @@
-import React from 'react';
-import { LeftBarIcon } from './LeftBarIcon';
+import { useState } from "react";
+import { LeftBarNodeButton } from "./LeftBarNodeBotton";
+import logo from "../assets/images/logo-sb.png";
 
-export default () => {
-  return (
-    <aside style={styles.aside}>
-      <div style={styles.barTitle}>Drag a node to add it to the flow</div>
-      <div style={styles.iconsContainer}>
-        <LeftBarIcon shape='square' size={15}/>
-        <LeftBarIcon shape='rectangle' size={18} />
-        <LeftBarIcon shape='circle' size={17}/>
-        <LeftBarIcon shape='triangle' size={17}/>
-        <LeftBarIcon shape='triangleDown' size={17}/>
-        <LeftBarIcon shape='diamond'/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
-      </div>
-      
+export function LeftBar(){
+    const [areNodesShown, setAreNodesShown] = useState(false)
+    return <aside style={styles.container}>
+      <a href="/#" style={styles.logoLink}>
+        <img src={logo} alt="Sibatel logo"  style={styles.logo}/>
+      </a>
+      <LeftBarNodeButton/>
     </aside>
-  );
-};
-
+}
 
 const styles = {
-  aside: {
-    backgroundColor:'#eaf1ff',
-    width: 120
-  },
-  barTitle:{
-    padding: 10,
-    fontWeight: 'bold',
-    fontSize:14,
-    width: "90%",
-    //color:'blue'
-  },
-  iconNode:{
-    backgroundColor:'#f7f3f3',
-    margin: 10,
-    width: '80%',
-    fontSize: 12,
-    height: 50,
-    borderRadius: 12,
-    boxShadow: '4px 5px 5px -1px rgba(0,0,0,0.61)'
-  },
-  iconsContainer:{
-    display:'flex',
-    flexWrap: 'wrap',
-    width: 110,
-    justifyContent:'flex-start',
-    marginLeft: 10
-  }
-} 
+    container:{
+        width: 70,
+        backgroundColor: '#f8fafe',
+        display:'flex',
+        flexDirection: 'column',
+        alignItems:'center'
+    },
+    logoLink:{
+        height: "80px",
+        padding: "5px 0",
+        marginBottom: "1rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    logo:{
+        height: "35px",
+        width: "35px",
+    }
+}

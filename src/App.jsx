@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactFlowComponent from './components/ReactFlowComponent'
+import { LeftBar } from './components/LeftBar';
 
 
 
@@ -22,8 +23,15 @@ import ReactFlowComponent from './components/ReactFlowComponent'
 export default function App() {
 
   return (
-    <div >
+    <div style={styles.editorContainer}>
+        <LeftBar/>
         <ReactFlowComponent/>
     </div>
   );
+}
+
+const styles = {
+  editorContainer:{
+    display:'flex'
+  }
 }

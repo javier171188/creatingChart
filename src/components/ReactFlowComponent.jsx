@@ -10,7 +10,7 @@ import ReactFlow, {
     addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
-import LeftBar from './LeftBar';
+import LeftBar from './NodesMenu';
 import { TextNode } from './nodes/TextNode'
 import { PlusNode } from './nodes/PlusNode';
 import { SquareNode } from './nodes/SquareNode';
