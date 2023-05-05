@@ -19,6 +19,7 @@ import { CircleNode } from './nodes/CircleNode';
 import { TriangleNode } from './nodes/TriangleNode';
 import { TriangleDownNode } from './nodes/TriangleDownNode';
 import { StartStopNode } from './nodes/StartStopNode';
+import { DiamondNode } from './nodes/DiamondNode';
 
 const initialNodes=[ ]
   
@@ -54,6 +55,7 @@ function Flow() {
 
   const nodeTypes = useMemo(() => ({ 
     startStopNode: StartStopNode,
+    diamondNode: DiamondNode,
     triangle: TriangleNode,
     triangleDown: TriangleDownNode,
     circle: CircleNode,
@@ -108,6 +110,7 @@ function Flow() {
       });
       //TODO: The ids should have info about the type of node
       const newId = `${(new Date()).getTime()}` 
+      console.log(type)
       const newNode = {
         id: newId,
         type,
