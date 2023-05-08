@@ -151,7 +151,7 @@ function FlowWithProvider() {
   return (
     <ReactFlowProvider>
       <div style={styles.barAndDragging}>
-        <LeftBar/>
+       
         <div style={styles.draggingArea}>
         <Flow>
         </Flow>
@@ -170,7 +170,7 @@ const styles = {
     display:'flex'
   },
   draggingAreaContainer:{
-    width: "calc(100vw - 120px)",
+    width: "calc(100vw - 70px)",
     height: "100vh",
   },
   draggingArea:{

@@ -25,7 +25,8 @@ export default () => {
 const styles = {
   aside: {
     backgroundColor:'#eaf1ff',
-    width: 120
+    width: "100%",
+    height: "100%"
   },
   barTitle:{
     padding: 10,
@@ -46,8 +47,8 @@ const styles = {
   iconsContainer:{
     display:'flex',
     flexWrap: 'wrap',
-    width: 110,
-    justifyContent:'flex-start',
-    marginLeft: 10
+    width: '90%',
+    justifyContent:'space-around',
+    margin: 10, 
   }
 } 

@@ -1,9 +1,9 @@
 import {MdOutlineRectangle} from 'react-icons/md'
 
 
-export function LeftBarNodeButton(){
+export function LeftBarNodeButton({onClick}){
     return <>
-        <button style={styles.buttonTag}>
+        <button style={styles.buttonTag} onClick={onClick}>
             <MdOutlineRectangle/>
         </button>
     </>
