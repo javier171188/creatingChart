@@ -1,9 +1,12 @@
 import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
-export function CircleNode(){
+export function CircleNode({selected}){
+
 
     return <>
-        <div style={styles.nodeContainer}>
+        <div style={selected?
+            {...styles.nodeContainer, ...styles.selectedNodeContainer}
+            :styles.nodeContainer}>
             click to add text
         </div>
         <Handle type="source" position={Position.Bottom} id="a" />
@@ -20,8 +23,11 @@ const styles = {
         textAlign:'center',
         borderColor:'rgb(61,159,255)',
         backgroundColor:'white',
-        boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
         borderWidth: 1,
         padding:10
+    },
+    selectedNodeContainer:{
+        boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
+        borderWidth: 2,
     }
 }

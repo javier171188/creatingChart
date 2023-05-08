@@ -10,7 +10,6 @@ import ReactFlow, {
     addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
-import LeftBar from './NodesMenu';
 import { TextNode } from './nodes/TextNode'
 import { PlusNode } from './nodes/PlusNode';
 import { SquareNode } from './nodes/SquareNode';
@@ -36,6 +35,9 @@ function Flow() {
     fetch('http://localhost:3000/chart').then(response=>{
      return response.json()
     }).then(({edges, nodes})=>{
+      console.log(nodes)
+      const test = {prop:false}
+      console.log(JSON.stringify(test))
       setEdges(edges)
       const newNodes = [...initialNodes,...nodes]
       setNodes(newNodes)
@@ -110,15 +112,18 @@ function Flow() {
       });
       //TODO: The ids should have info about the type of node
       const newId = `${(new Date()).getTime()}` 
-      console.log(type)
+      
       const newNode = {
         id: newId,
         type,
         position,
         data: { label: `${type} node` },
+        selected: true
       };
 
-      setNodes((nds) => nds.concat(newNode));
+      setNodes((nds) => {
+        nds = nds.map(node=> ({...node, selected:false}))
+        return nds.concat(newNode)});
       setLatestNodeId(newId)
     },
     [reactFlowInstance]
