@@ -36,8 +36,7 @@ function Flow() {
      return response.json()
     }).then(({edges, nodes})=>{
       console.log(nodes)
-      const test = {prop:false}
-      console.log(JSON.stringify(test))
+      
       setEdges(edges)
       const newNodes = [...initialNodes,...nodes]
       setNodes(newNodes)

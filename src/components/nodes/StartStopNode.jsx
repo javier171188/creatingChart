@@ -2,12 +2,13 @@ import { Handle, Position } from "../../../../../react-flow/packages/reactflow/d
 
 export function StartStopNode({data}){
     const {label} = data
+
     return <>
         <div style={styles.nodeContainer}>
             {label}
         </div>
-        <Handle type="source" position={Position.Bottom} id="a" />
-        <Handle type="target" position={Position.Top} id="b"  />
+       {label==='Start'? <Handle type="source" position={Position.Bottom} id="a" />
+        :<Handle type="target" position={Position.Top} id="b"  />}
     </> 
 }
 
