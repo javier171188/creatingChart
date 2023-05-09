@@ -40,7 +40,7 @@ function Flow() {
       setNodes(newNodes)
     })
   },[])
-  const numberOfNodes = nodes.length
+  //const numberOfNodes = nodes.length
   // useEffect(()=>{
   //   setTimeout(()=>{
   //       const checkingNode = nodes.find(node=>node.id===latestNodeId)
@@ -65,30 +65,32 @@ function Flow() {
     plusNode:PlusNode
   }), [])
   const onConnect = useCallback((params) => {
-    const {source, target} = params
-    //const parentNode = nodes.find(node => node.id === source)
-    const childNode = nodes.find(node => node.id === target)
-      console.log(target, nodes)
-    const newPlusButtonId = `plus-${(new Date()).getTime()}`   
-      const bottomPlus = {
-        id: newPlusButtonId,
-        type:'plusNode',
-        position:{x:100,y:100},
-      }
-      //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
-      setNodes(nodes=>[...nodes, bottomPlus])
+    // const {source, target} = params
+    // //const parentNode = nodes.find(node => node.id === source)
+    // const childNode = nodes.find(node => node.id === target)
+    //   console.log(target, nodes)
+    // const newPlusButtonId = `plus-${(new Date()).getTime()}`   
+    //   const bottomPlus = {
+    //     id: newPlusButtonId,
+    //     type:'plusNode',
+    //     position:{x:100,y:100},
+    //   }
+    //   //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
+    //   setNodes(nodes=>[...nodes, bottomPlus])
 
 
-    //setEdges((eds) => addEdge(params, eds))
+     setEdges((eds) => addEdge(params, eds))
   }, [setEdges]);
  
   
 
   function createIfIntersectsPlusNode(node){
+    const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
+    if (connectingNodes.length>0)return
+
     //There should be only one "plus" intersecting node. 
     //TODO: change children position, add new plus nodes
     const interNodes = getIntersectingNodes(node)
-    
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
 
 

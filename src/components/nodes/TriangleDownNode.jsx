@@ -15,18 +15,19 @@ const styles = {
     nodeContainer:{
     width: 0, 
     height: 0, 
-    borderLeft: "100px solid transparent",
-    borderRight: "100px solid transparent",
-    borderTop: "100px solid rgb(255,194,55)",
-    color:'white'
+    borderLeft: "75px solid transparent",
+    borderRight: "75px solid transparent",
+    borderTop: "75px solid rgb(255,194,55)",
+    color:'white',
+    fontSize: 12
     },
     textContainer:{
         boxSizing: "border-box",
         //border:'solid',
-        width: 100,
-        height: 100,
+        width: 75,
+        height: 75,
         position:'absolute',
-        left:55,
-        top: 0
+        left:45,
+        top: 5
     }
 }

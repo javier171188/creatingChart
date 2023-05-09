@@ -15,14 +15,15 @@ export function SquareNode({selected}){
 
 const styles = {
     nodeContainer:{
-        width: 75,
-        height: 75,
+        width: 50,
+        height: 50,
         border:'solid',
         borderWidth: '1px 1px  4px',
         borderRadius: 5,
         borderColor:'rgb(61,159,255)',
         backgroundColor:'white',
-        padding:10
+        padding:10,
+        fontSize: 12
     },
     selectedNodeContainer:{
         boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
