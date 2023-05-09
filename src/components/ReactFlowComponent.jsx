@@ -21,7 +21,7 @@ import { StartStopNode } from './nodes/StartStopNode';
 import { DiamondNode } from './nodes/DiamondNode';
 
 const initialNodes=[ ]
-  
+const displacementDistance = 50 
 
 function Flow() {
   const { getIntersectingNodes } = useReactFlow();
@@ -83,7 +83,6 @@ function Flow() {
   }, [setEdges]);
  
   
-
   function createIfIntersectsPlusNode(node){
     const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
     if (connectingNodes.length>0)return
@@ -92,8 +91,6 @@ function Flow() {
     //TODO: change children position, add new plus nodes
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
-
-
         const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
         const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
 
@@ -107,12 +104,14 @@ function Flow() {
       const bottomPlus = {
         id: newPlusButtonId,
         type:'plusNode',
-        position:{x:childNode.position.x,y:childNode.position.y-50},
+        position:{x:childNode.position.x,y:childNode.position.y},
       }
       //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
-      setNodes(nodes=>[...nodes, bottomPlus])
-        
+      node.position.y = node.position.y+displacementDistance
+      setNodes(nodes=>[...nodes, bottomPlus, node])
 
+
+      moveNodesDown(childNode)
       setEdges(edges=>{
         const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
         // const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
@@ -123,11 +122,23 @@ function Flow() {
         newEdges.push(edgeA)
         const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, source:node.id, target:newPlusButtonId}
         newEdges.push(edgeB)
-        const edgeC = {id:`fromPlus-${inputEdge.target}`, source:newPlusButtonId, target:outputEdge.target}
+        const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, source:newPlusButtonId, target:outputEdge.target}
         newEdges.push(edgeC)
         return newEdges
-    })
+      })
+
+    
     }
+  }
+
+
+  function moveNodesDown(node){ 
+    node.position.y = node.position.y+displacementDistance
+    setNodes(nodes=>[...nodes,  node])
+    const outgoingEdge = edges.find(edg=>edg.source===node.id)
+    if(!outgoingEdge)return
+    const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
+    moveNodesDown(childNode)
   }
 
   const onDragOver = useCallback((event) => {
