@@ -65,8 +65,27 @@ function Flow() {
     plusNode:PlusNode
   }), [])
   const onConnect = useCallback((params) => {
-         setEdges((eds) => addEdge(params, eds))
-  }, [setEdges]);
+        const sourceNode = nodes.find(nd=>nd.id===params.source)
+        const targetNode = nodes.find(nd=>nd.id===params.target)
+
+        const plusButtonPosition = {
+          x: (sourceNode.position.x + targetNode.position.x)/2,
+          y: (sourceNode.position.y + targetNode.position.y)/2
+         }
+
+        const newPlusButtonId = `plus-${(new Date()).getTime()}`   
+        const buttonPlus = {
+          id: newPlusButtonId,
+          type:'plusNode',
+          position: plusButtonPosition,
+        }
+        setNodes(nds=>[...nds,buttonPlus])
+        setEdges(edges=>{
+          const edgeUp = {id:`${sourceNode.id}-plus-${(new Date()).getTime()}`, source:sourceNode.id, target:newPlusButtonId}
+          const edgeDown = {id:`fromPlus-${targetNode.id}-${(new Date()).getTime()}`, source:newPlusButtonId, target:targetNode.id}
+          return [...edges,edgeUp,edgeDown]
+        })
+  }, [setEdges, nodes]);
  
   
   function createIfIntersectsPlusNode(node){
@@ -178,8 +197,7 @@ function Flow() {
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
 
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
-    //TODO: delete remaining edge
-
+    
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
     setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
 
