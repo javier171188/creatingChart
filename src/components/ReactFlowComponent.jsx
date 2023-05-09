@@ -107,6 +107,7 @@ function Flow() {
         id: newPlusButtonId,
         type:'plusNode',
         position:{x:childNode.position.x,y:childNode.position.y+displacementDistance},
+        deletable:false
       }
       
       node.position.y = node.position.y+displacementDistance
@@ -186,7 +187,6 @@ function Flow() {
   function onNodesDelete(nodes){
     nodes.forEach(node=>onNodeDelete(node))
   }
-  
   function onNodeDelete(node){
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
@@ -220,7 +220,27 @@ function Flow() {
     moveNodes(newBottomNode,'up')
   }
   
-  
+  function onEdgesDelete(edges, more){
+    edges.forEach(edge=>onEdgeDelete(edge))
+  }
+  function onEdgeDelete(edge){
+    const sourceNode = nodes.find(nd=>nd.id===edge.source)
+    const targetNode = nodes.find(nd=>nd.id===edge.target)
+
+    let remainingEdge
+    if(sourceNode.id.startsWith('plus-')){
+      //Delete up
+      remainingEdge = edges.find(edg=>edg.target===sourceNode.id)
+      setNodes(nds => nds.filter(nd=>nd.id!==sourceNode.id))      
+    }else{
+      //delete down
+      remainingEdge = edges.find(edg=>edg.source===targetNode.id)
+      setNodes(nds => nds.filter(nd=>nd.id!==targetNode.id))  
+    }
+    
+    setEdges(edgs=>edgs.filter(edg=>edg.id!==remainingEdge.id))
+    
+  }
 
   return <div style={styles.draggingAreaContainer} ref={reactFlowWrapper}>
          <ReactFlow 
@@ -235,6 +255,7 @@ function Flow() {
             onDrop={onDrop}
             onInit={setReactFlowInstance}
             onNodesDelete={onNodesDelete}
+            onEdgesDelete={onEdgesDelete}
          />
       </div>
  
