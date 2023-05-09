@@ -21,7 +21,7 @@ import { StartStopNode } from './nodes/StartStopNode';
 import { DiamondNode } from './nodes/DiamondNode';
 
 const initialNodes=[ ]
-const displacementDistance = 50 
+const displacementDistance = 100 
 
 function Flow() {
   const { getIntersectingNodes } = useReactFlow();
@@ -40,16 +40,16 @@ function Flow() {
       setNodes(newNodes)
     })
   },[])
-  //const numberOfNodes = nodes.length
-  // useEffect(()=>{
-  //   setTimeout(()=>{
-  //       const checkingNode = nodes.find(node=>node.id===latestNodeId)
-  //       if(checkingNode){ 
-  //         createIfIntersectsPlusNode(checkingNode)
-  //        }
-  //   },100)   
-  //   console.log(numberOfNodes, nodes)
-  // },[numberOfNodes])
+  const numberOfNodes = nodes.length
+  useEffect(()=>{
+    setTimeout(()=>{
+        const checkingNode = nodes.find(node=>node.id===latestNodeId)
+        if(checkingNode){ 
+          createIfIntersectsPlusNode(checkingNode)
+         }
+    },100)   
+    
+  },[numberOfNodes])
  
   
 
@@ -104,7 +104,7 @@ function Flow() {
       const bottomPlus = {
         id: newPlusButtonId,
         type:'plusNode',
-        position:{x:childNode.position.x,y:childNode.position.y},
+        position:{x:childNode.position.x,y:childNode.position.y+displacementDistance},
       }
       //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
       node.position.y = node.position.y+displacementDistance
@@ -133,7 +133,7 @@ function Flow() {
 
 
   function moveNodesDown(node){ 
-    node.position.y = node.position.y+displacementDistance
+    node.position.y = node.position.y+displacementDistance*2
     setNodes(nodes=>[...nodes,  node])
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
     if(!outgoingEdge)return
