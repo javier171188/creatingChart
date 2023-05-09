@@ -65,21 +65,7 @@ function Flow() {
     plusNode:PlusNode
   }), [])
   const onConnect = useCallback((params) => {
-    // const {source, target} = params
-    // //const parentNode = nodes.find(node => node.id === source)
-    // const childNode = nodes.find(node => node.id === target)
-    //   console.log(target, nodes)
-    // const newPlusButtonId = `plus-${(new Date()).getTime()}`   
-    //   const bottomPlus = {
-    //     id: newPlusButtonId,
-    //     type:'plusNode',
-    //     position:{x:100,y:100},
-    //   }
-    //   //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
-    //   setNodes(nodes=>[...nodes, bottomPlus])
-
-
-     setEdges((eds) => addEdge(params, eds))
+         setEdges((eds) => addEdge(params, eds))
   }, [setEdges]);
  
   
@@ -94,7 +80,6 @@ function Flow() {
 
         if(!inputEdge || !outputEdge )return
         
-        //const parentNode = nodes.find(node => node.id === inputEdge.source)
         const childNode = nodes.find(node => node.id === outputEdge.target)
        
         
@@ -104,7 +89,7 @@ function Flow() {
         type:'plusNode',
         position:{x:childNode.position.x,y:childNode.position.y+displacementDistance},
       }
-      //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
+      
       node.position.y = node.position.y+displacementDistance
       setNodes(nodes=>[...nodes, bottomPlus, node])
 
@@ -112,10 +97,6 @@ function Flow() {
       moveNodesDown(childNode)
       setEdges(edges=>{
         const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
-        // const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
-        // const newOutputEdge = {id:`${node.id}-${outputEdge.target}`, source:node.id, target:outputEdge.target}
-        // newEdges.push(newInputEdge)
-        // newEdges.push(newOutputEdge)
         const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, source:interNodes[0].id, target:node.id}
         newEdges.push(edgeA)
         const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, source:node.id, target:newPlusButtonId}
@@ -182,6 +163,26 @@ function Flow() {
     createIfIntersectsPlusNode(node)
   }
   
+  function onNodesDelete(nodes){
+    nodes.forEach(node=>onNodeDelete(node))
+  }
+
+  function onNodeDelete(node){
+    const upperEdge = edges.find(edg=> edg.target===node.id)
+    const bottomEdge = edges.find(edg=>edg.source===node.id )
+    
+    const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
+    const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
+
+    const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
+
+    setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
+    //TODO: delete remaining edge
+
+    const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
+    setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
+  }
+  console.log(edges)
   return <div style={styles.draggingAreaContainer} ref={reactFlowWrapper}>
          <ReactFlow 
             nodes={nodes}
@@ -194,6 +195,7 @@ function Flow() {
             onDragOver={onDragOver}
             onDrop={onDrop}
             onInit={setReactFlowInstance}
+            onNodesDelete={onNodesDelete}
          />
       </div>
  
