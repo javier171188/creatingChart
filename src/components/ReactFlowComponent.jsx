@@ -94,7 +94,7 @@ function Flow() {
       setNodes(nodes=>[...nodes, bottomPlus, node])
 
 
-      moveNodesDown(childNode)
+      moveNodes(childNode,'down')
       setEdges(edges=>{
         const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
         const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, source:interNodes[0].id, target:node.id}
@@ -111,13 +111,14 @@ function Flow() {
   }
 
 
-  function moveNodesDown(node){ 
-    node.position.y = node.position.y+displacementDistance*2
+  function moveNodes(node,yDirection='up'){ 
+    const mult = yDirection!=='up'? 1:-1
+    node.position.y = node.position.y+ displacementDistance*2*mult
     setNodes(nodes=>[...nodes,  node])
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
     if(!outgoingEdge)return
     const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
-    moveNodesDown(childNode)
+    moveNodes(childNode, yDirection)
   }
 
   const onDragOver = useCallback((event) => {
@@ -181,8 +182,14 @@ function Flow() {
 
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
     setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
+
+    const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
+    
+    moveNodes(newBottomNode,'up')
   }
-  console.log(edges)
+  
+  
+
   return <div style={styles.draggingAreaContainer} ref={reactFlowWrapper}>
          <ReactFlow 
             nodes={nodes}
