@@ -35,22 +35,21 @@ function Flow() {
     fetch('http://localhost:3000/chart').then(response=>{
      return response.json()
     }).then(({edges, nodes})=>{
-      console.log(nodes)
-      
       setEdges(edges)
       const newNodes = [...initialNodes,...nodes]
       setNodes(newNodes)
     })
   },[])
   const numberOfNodes = nodes.length
-  useEffect(()=>{
-    setTimeout(()=>{
-        const checkingNode = nodes.find(node=>node.id===latestNodeId)
-        if(checkingNode){ 
-          createIfIntersectsPlusNode(checkingNode)
-         }
-    },100)   
-  },[numberOfNodes])
+  // useEffect(()=>{
+  //   setTimeout(()=>{
+  //       const checkingNode = nodes.find(node=>node.id===latestNodeId)
+  //       if(checkingNode){ 
+  //         createIfIntersectsPlusNode(checkingNode)
+  //        }
+  //   },100)   
+  //   console.log(numberOfNodes, nodes)
+  // },[numberOfNodes])
  
   
 
@@ -70,22 +69,46 @@ function Flow() {
   
 
   function createIfIntersectsPlusNode(node){
-    //There should be only one "plus" intersecting nodes. 
+    //There should be only one "plus" intersecting node. 
     //TODO: change children position, add new plus nodes
     const interNodes = getIntersectingNodes(node)
     
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
+
+
         const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
         const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
-        setEdges(edges=>{
-            const newEdges = edges.filter(edge=> ![inputEdge.id, outputEdge.id].includes(edge.id))
-            const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
-            const newOutputEdge = {id:`${node.id}-${outputEdge.target}`, source:node.id, target:outputEdge.target}
-            newEdges.push(newInputEdge)
-            newEdges.push(newOutputEdge)
-            return newEdges
-        })
-        setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
+
+        if(!inputEdge || !outputEdge )return
+        
+        const parentNode = nodes.find(node => node.id === inputEdge.source)
+        const childNode = nodes.find(node => node.id === outputEdge.target)
+       
+        
+      const newPlusButtonId = `plus-${(new Date()).getTime()}`   
+      const bottomPlus = {
+        id: newPlusButtonId,
+        type:'plusNode',
+        position:{x:childNode.position.x,y:childNode.position.y-50},
+      }
+      //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
+      setNodes(nodes=>[...nodes, bottomPlus])
+        
+
+      setEdges(edges=>{
+        const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
+        // const newInputEdge = {id:`${inputEdge.source}-${node.id}`, source:inputEdge.source, target:node.id}
+        // const newOutputEdge = {id:`${node.id}-${outputEdge.target}`, source:node.id, target:outputEdge.target}
+        // newEdges.push(newInputEdge)
+        // newEdges.push(newOutputEdge)
+        const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, source:interNodes[0].id, target:node.id}
+        newEdges.push(edgeA)
+        const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, source:node.id, target:newPlusButtonId}
+        newEdges.push(edgeB)
+        const edgeC = {id:`fromPlus-${inputEdge.target}`, source:newPlusButtonId, target:outputEdge.target}
+        newEdges.push(edgeC)
+        return newEdges
+    })
     }
   }
 
