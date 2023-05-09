@@ -87,8 +87,6 @@ function Flow() {
     const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
     if (connectingNodes.length>0)return
 
-    //There should be only one "plus" intersecting node. 
-    //TODO: change children position, add new plus nodes
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
         const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
