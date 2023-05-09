@@ -64,7 +64,23 @@ function Flow() {
     textNode: TextNode,
     plusNode:PlusNode
   }), [])
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+  const onConnect = useCallback((params) => {
+    const {source, target} = params
+    //const parentNode = nodes.find(node => node.id === source)
+    const childNode = nodes.find(node => node.id === target)
+      console.log(target, nodes)
+    const newPlusButtonId = `plus-${(new Date()).getTime()}`   
+      const bottomPlus = {
+        id: newPlusButtonId,
+        type:'plusNode',
+        position:{x:100,y:100},
+      }
+      //setNodes(nodes=>nodes.filter(node=> node.id!==interNodes[0].id))
+      setNodes(nodes=>[...nodes, bottomPlus])
+
+
+    //setEdges((eds) => addEdge(params, eds))
+  }, [setEdges]);
  
   
 
@@ -81,7 +97,7 @@ function Flow() {
 
         if(!inputEdge || !outputEdge )return
         
-        const parentNode = nodes.find(node => node.id === inputEdge.source)
+        //const parentNode = nodes.find(node => node.id === inputEdge.source)
         const childNode = nodes.find(node => node.id === outputEdge.target)
        
         
