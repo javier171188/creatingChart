@@ -4,7 +4,9 @@ import { LeftBarIcon } from './NodeIcon';
 export default ({handleClose}) => {
   return (
     <aside style={styles.aside}>
-      <div style={styles.barTitle}>Drag a node to add it to the flow</div>
+      <div style={styles.barTitle}>{handleClose
+        ? "Click a node to add it"
+        : "Drag a node to add it to the flow"}</div>
       <div style={styles.iconsContainer}>
         <LeftBarIcon shape='square' size={15} handleClose={handleClose}/>
         <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}/>
