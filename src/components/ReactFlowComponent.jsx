@@ -161,8 +161,8 @@ function Flow() {
       }
       
       const position = reactFlowInstance.project({
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
+        x: event.clientX - reactFlowBounds.left-37,
+        y: event.clientY - reactFlowBounds.top-37,
       });
       //TODO: The ids should have info about the type of node
       const newId = `${(new Date()).getTime()}` 
@@ -274,8 +274,7 @@ function FlowWithProvider() {
   return (
     <ReactFlowProvider>
       <div style={styles.barAndDragging}>
-       
-        <div style={styles.draggingArea}>
+      <div style={styles.draggingArea}>
         <Flow>
         </Flow>
         <Controls />

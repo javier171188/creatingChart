@@ -16,8 +16,8 @@ export function DiamondNode({selected}){
 
 const styles = {
     nodeContainer:{
-        width: 75,
-        height: 75,
+        width: 50,
+        height: 50,
         border:'solid',
         borderWidth: 1,
         borderRadius: 5,
@@ -28,9 +28,9 @@ const styles = {
         transform: "rotate(-45deg)"
     },
     textContainer:{
-        margin:10,
+        margin:2,
         transform: "rotate(45deg)",
-        fontSize:14
+        fontSize:12
     },
     nodeContainerSelected:{
         boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
