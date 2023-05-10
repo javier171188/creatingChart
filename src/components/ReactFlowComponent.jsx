@@ -30,6 +30,7 @@ function Flow() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [latestNodeId, setLatestNodeId] = useState(null)
+  
 
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
@@ -63,7 +64,7 @@ function Flow() {
     textNode: TextNode,
     plusNode:PlusNode
   }), [])
-  const onConnect = useCallback((params) => {
+  const onConnect = (params) => {
         const sourceNode = nodes.find(nd=>nd.id===params.source)
         const targetNode = nodes.find(nd=>nd.id===params.target)
 
@@ -77,6 +78,7 @@ function Flow() {
           id: newPlusButtonId,
           type:'plusNode',
           position: plusButtonPosition,
+          deletable:false
         }
         setNodes(nds=>[...nds,buttonPlus])
         setEdges(edges=>{
@@ -84,8 +86,7 @@ function Flow() {
           const edgeDown = {id:`fromPlus-${targetNode.id}-${(new Date()).getTime()}`, source:newPlusButtonId, target:targetNode.id}
           return [...edges,edgeUp,edgeDown]
         })
-  }, [setEdges, nodes]);
- 
+  }
   
   function createIfIntersectsPlusNode(node){
     const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
@@ -189,13 +190,13 @@ function Flow() {
   function onNodesDelete(nodes){
     nodes.forEach(node=>onNodeDelete(node))
   }
+ 
   function onNodeDelete(node){
-
-    //If the node is plus, just return...
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
 
     if(!bottomEdge && !upperEdge)return
+   
     if(!bottomEdge){
       const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
       const remainingEdge = edges.find(edg=>edg.target===parentPlusNode.id)
@@ -214,7 +215,8 @@ function Flow() {
     const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
-
+    // console.log(parentPlusNode,childPlusNode,bottomNodeEdge)
+    // console.log(nodes)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
@@ -224,7 +226,10 @@ function Flow() {
     moveNodes(newBottomNode,'up')
   }
   
-  function onEdgesDelete(edges, more){
+  function onEdgesDelete(edges){
+    //TODO: Distinguish when more than one edge have been manually deleted from two edges have
+    // disappeared because its node has been deleted
+    if(edges.length>1) return
     edges.forEach(edge=>onEdgeDelete(edge))
   }
   function onEdgeDelete(edge){
