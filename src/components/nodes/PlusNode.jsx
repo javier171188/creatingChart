@@ -14,7 +14,7 @@ export function PlusNode({xPos,yPos}) {
  
 
  
-  function handleClick(event){
+  function handleClick(){
     setIsMenuOpen(prev=>!prev)
   }
 
@@ -48,7 +48,7 @@ export function PlusNode({xPos,yPos}) {
             } 
          }
       >
-         <NodesMenu/>
+         <NodesMenu handleClose={handleClick}/>
       </ReactModal>
     </>
   );
@@ -71,10 +71,6 @@ const styles = {
     left: 30,
     top: 25,
     width:200,
-    // border: 'solid',
-    // borderWidth: 1,
-    // borderColor:'blue',
-    // borderRadius: 10,
     boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
   }
 }

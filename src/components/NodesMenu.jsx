@@ -1,21 +1,21 @@
 import React from 'react';
 import { LeftBarIcon } from './NodeIcon';
 
-export default () => {
+export default ({handleClose}) => {
   return (
     <aside style={styles.aside}>
       <div style={styles.barTitle}>Drag a node to add it to the flow</div>
       <div style={styles.iconsContainer}>
-        <LeftBarIcon shape='square' size={15}/>
-        <LeftBarIcon shape='rectangle' size={18} />
-        <LeftBarIcon shape='circle' size={17}/>
-        <LeftBarIcon shape='triangle' size={17}/>
-        <LeftBarIcon shape='triangleDown' size={17}/>
-        <LeftBarIcon shape='diamond'/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
-        <LeftBarIcon/>
+        <LeftBarIcon shape='square' size={15} handleClose={handleClose}/>
+        <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}/>
+        <LeftBarIcon shape='circle' size={17} handleClose={handleClose}/>
+        <LeftBarIcon shape='triangle' size={17} handleClose={handleClose}/>
+        <LeftBarIcon shape='triangleDown' size={17} handleClose={handleClose}/>
+        <LeftBarIcon shape='diamond' handleClose={handleClose}/>
+        <LeftBarIcon handleClose={handleClose}/>
+        <LeftBarIcon handleClose={handleClose}/>
+        <LeftBarIcon handleClose={handleClose}/>
+        <LeftBarIcon handleClose={handleClose}/>
       </div>    
     </aside>
   );
