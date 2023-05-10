@@ -42,6 +42,7 @@ function Flow() {
   },[])
   const numberOfNodes = nodes.length
   useEffect(()=>{
+    console.log(nodes)
     setTimeout(()=>{
         const checkingNode = nodes.find(node=>node.id===latestNodeId)
         if(checkingNode){ 
@@ -52,7 +53,6 @@ function Flow() {
   },[numberOfNodes])
  
   
-
   const nodeTypes = useMemo(() => ({ 
     startStopNode: StartStopNode,
     diamondNode: DiamondNode,
@@ -85,13 +85,14 @@ function Flow() {
           const edgeDown = {id:`fromPlus-${targetNode.id}-${(new Date()).getTime()}`, source:newPlusButtonId, target:targetNode.id}
           return [...edges,edgeUp,edgeDown]
         })
+        console.log(nodes)
   }, [setEdges, nodes]);
  
   
   function createIfIntersectsPlusNode(node){
     const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
     if (connectingNodes.length>0)return
-
+    
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
         const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
@@ -111,7 +112,7 @@ function Flow() {
       }
       
       node.position.y = node.position.y+displacementDistance
-      setNodes(nodes=>[...nodes, bottomPlus, node])
+      setNodes(nodes=>[...nodes, bottomPlus])
 
 
       moveNodes(childNode,'down')
@@ -133,8 +134,11 @@ function Flow() {
 
   function moveNodes(node,yDirection='up'){ 
     const mult = yDirection!=='up'? 1:-1
-    node.position.y = node.position.y+ displacementDistance*2*mult
-    setNodes(nodes=>[...nodes,  node])
+    setNodes(nodes=>nodes.map(nd=>{
+      if(nd.id===node.id){
+        return {...nd, position:{x:nd.position.x, y:nd.position.y+ displacementDistance*2*mult}}
+      }return nd
+    }))
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
     if(!outgoingEdge)return
     const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
@@ -177,7 +181,7 @@ function Flow() {
         return nds.concat(newNode)});
       setLatestNodeId(newId)
     },
-    [reactFlowInstance]
+    [reactFlowInstance, setNodes]
   );
 
   function onNodeDragStop(event, node){
@@ -185,6 +189,7 @@ function Flow() {
   }
   
   function onNodesDelete(nodes){
+    console.log(nodes)
     nodes.forEach(node=>onNodeDelete(node))
   }
   function onNodeDelete(node){
