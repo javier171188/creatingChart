@@ -42,7 +42,6 @@ function Flow() {
   },[])
   const numberOfNodes = nodes.length
   useEffect(()=>{
-    console.log(nodes)
     setTimeout(()=>{
         const checkingNode = nodes.find(node=>node.id===latestNodeId)
         if(checkingNode){ 
@@ -85,7 +84,6 @@ function Flow() {
           const edgeDown = {id:`fromPlus-${targetNode.id}-${(new Date()).getTime()}`, source:newPlusButtonId, target:targetNode.id}
           return [...edges,edgeUp,edgeDown]
         })
-        console.log(nodes)
   }, [setEdges, nodes]);
  
   
@@ -189,10 +187,11 @@ function Flow() {
   }
   
   function onNodesDelete(nodes){
-    console.log(nodes)
     nodes.forEach(node=>onNodeDelete(node))
   }
   function onNodeDelete(node){
+
+    //If the node is plus, just return...
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
 
