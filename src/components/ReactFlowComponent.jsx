@@ -7,7 +7,7 @@ import ReactFlow, {
     //Background,
     useNodesState,
     useEdgesState,
-    addEdge,
+    //addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { TextNode } from './nodes/TextNode'
@@ -55,7 +55,7 @@ function Flow() {
   
   const nodeTypes = useMemo(() => ({ 
     startStopNode: StartStopNode,
-    diamondNode: DiamondNode,
+    diamond: DiamondNode,
     triangle: TriangleNode,
     triangleDown: TriangleDownNode,
     circle: CircleNode,
@@ -215,8 +215,6 @@ function Flow() {
     const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
-    // console.log(parentPlusNode,childPlusNode,bottomNodeEdge)
-    // console.log(nodes)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
