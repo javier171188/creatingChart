@@ -1,5 +1,5 @@
 import React,{ useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ReactFlow, { 
     ReactFlowProvider,
     useReactFlow,
@@ -9,6 +9,7 @@ import ReactFlow, {
     useNodesState,
     useEdgesState,
     //addEdge,
+    useViewport
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { TextNode } from './nodes/TextNode'
@@ -20,6 +21,7 @@ import { TriangleNode } from './nodes/TriangleNode';
 import { TriangleDownNode } from './nodes/TriangleDownNode';
 import { StartStopNode } from './nodes/StartStopNode';
 import { DiamondNode } from './nodes/DiamondNode';
+
 
 const initialNodes=[ ]
 const displacementDistance = 100 
@@ -34,6 +36,8 @@ function Flow() {
   
   const createdType = useSelector(state=> state.plusNode.createdType)
   const activePlusNodeId = useSelector(state=> state.plusNode.node)
+
+  const { x, y, zoom } = useViewport();
   
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
@@ -45,17 +49,17 @@ function Flow() {
     })
   },[])
 
-  //console.log(nodes)
+
 
   useEffect(()=>{
     if(!reactFlowInstance)return
     const activePlusNode = nodes.find(nd=>nd.id===activePlusNodeId)
-    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+    
     
 
    const position = reactFlowInstance.project({
-      x: activePlusNode.position.x - reactFlowBounds.left+40,
-      y: activePlusNode.position.y - reactFlowBounds.top,
+      x: activePlusNode.position.x *zoom + x,
+      y: activePlusNode.position.y *zoom + y,
     });
     
     const newId = `${createdType}-${(new Date()).getTime()}` 
@@ -67,6 +71,7 @@ function Flow() {
       selected: true
     };
 
+   
     setNodes((nds) => {
       nds = nds.map(node=> ({...node, selected:false}))
       return nds.concat(newNode)});

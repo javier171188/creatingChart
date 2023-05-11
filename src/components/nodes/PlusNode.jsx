@@ -6,15 +6,15 @@ import { Handle, Position, useViewport } from '../../../../../react-flow/package
 import NodesMenu from '../NodesMenu';
 
 
-export function PlusNode({xPos,yPos,id}) {
+export function PlusNode(props) {
   // const onChange = useCallback((evt) => {
   //   console.log(evt.target.value);
   // }, []);
+  const {xPos,yPos,id} = props
   const dispatch = useDispatch()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { x, y, zoom } = useViewport();
 
- 
   function handleClick(){
     setIsMenuOpen(prev=>!prev)
     dispatch(setNode(id))
