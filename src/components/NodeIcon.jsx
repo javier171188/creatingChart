@@ -1,8 +1,15 @@
+import { useSelector,useDispatch } from 'react-redux';
 import { AiOutlineStar } from 'react-icons/ai';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
+
+
 export function LeftBarIcon({handleClose,shape='star', size=20}){
+    const dispatch = useDispatch()
+    const currentNode = useSelector(state=>state.name.node)  
+  
+
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
         event.dataTransfer.effectAllowed = 'move';
@@ -29,6 +36,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20}){
 
     function handleClick(){
       if(handleClose)handleClose()
+      console.log(currentNode)
     }
 
     return <div 

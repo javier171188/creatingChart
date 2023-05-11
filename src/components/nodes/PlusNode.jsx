@@ -1,16 +1,22 @@
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { setNode } from '../../stateManagement/slices/plusNode'
 import ReactModal from 'react-modal';
 import { Handle, Position, useViewport } from '../../../../../react-flow/packages/reactflow/dist/esm';
 import NodesMenu from '../NodesMenu';
 
 
-export function PlusNode({xPos,yPos}) {
+export function PlusNode({xPos,yPos,id}) {
   // const onChange = useCallback((evt) => {
   //   console.log(evt.target.value);
   // }, []);
+  const dispatch = useDispatch()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { x, y, zoom } = useViewport();
 
- const { x, y, zoom } = useViewport();
+  useEffect(()=>{
+    dispatch(setNode(id))
+  },[])
  
 
  
