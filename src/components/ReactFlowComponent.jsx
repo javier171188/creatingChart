@@ -1,4 +1,5 @@
 import React,{ useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSelector,useDispatch } from 'react-redux';
 import ReactFlow, { 
     ReactFlowProvider,
     useReactFlow,
@@ -31,7 +32,8 @@ function Flow() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [latestNodeId, setLatestNodeId] = useState(null)
   
-
+  const createdType = useSelector(state=> state.plusNode.createdType)
+  
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
      return response.json()
@@ -41,6 +43,13 @@ function Flow() {
       setNodes(newNodes)
     })
   },[])
+
+  useEffect(()=>{
+    console.log(createdType)
+  },
+  [createdType])
+
+
   const numberOfNodes = nodes.length
   useEffect(()=>{
     setTimeout(()=>{

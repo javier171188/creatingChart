@@ -14,14 +14,10 @@ export function PlusNode({xPos,yPos,id}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { x, y, zoom } = useViewport();
 
-  useEffect(()=>{
-    dispatch(setNode(id))
-  },[])
- 
-
  
   function handleClick(){
     setIsMenuOpen(prev=>!prev)
+    dispatch(setNode(id))
   }
 
   

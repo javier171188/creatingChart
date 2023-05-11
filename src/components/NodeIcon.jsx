@@ -1,20 +1,22 @@
-import { useSelector,useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AiOutlineStar } from 'react-icons/ai';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
 
+import { setCreatedType } from '../stateManagement/slices/plusNode';
+
 
 export function LeftBarIcon({handleClose,shape='star', size=20}){
     const dispatch = useDispatch()
-    const currentNode = useSelector(state=>state.name.node)  
+    
   
 
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
         event.dataTransfer.effectAllowed = 'move';
       };
-
+ 
     function getIcon(){
       switch(shape){
         case 'circle':
@@ -35,8 +37,14 @@ export function LeftBarIcon({handleClose,shape='star', size=20}){
     }
 
     function handleClick(){
-      if(handleClose)handleClose()
-      console.log(currentNode)
+      if(handleClose){
+        //Icon is in a plus button menu
+        handleClose()
+        dispatch(setCreatedType(shape))
+      }else{
+        //Icon is in the left bar menu
+      }
+      
     }
 
     return <div 

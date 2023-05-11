@@ -3,6 +3,6 @@ import plusNode from "./slices/plusNode";
 
 export default configureStore({
   reducer: {
-    name: plusNode,
+    plusNode,
   },
 });
