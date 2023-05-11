@@ -1,12 +1,21 @@
 import React from 'react';
 import { LeftBarIcon } from './nodes/NodeIcon/NodeIcon';
+import {AiOutlineClose} from 'react-icons/ai'
 
-export default ({handleClose, isInPlusNodeMenu}) => {
+export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
+  
   return (
     <aside style={styles.aside}>
-      <div style={styles.barTitle}>{handleClose
-        ? "Click a node to add it"
-        : "Drag a node to add it to the flow"}</div>
+      <div style={styles.barTitle}>
+        <div>{isInLeftBar
+        ? "Drag a node to add it to the flow"
+        :"Click a node to add it"}
+        </div>
+        <button style={styles.closeButton}>
+          <AiOutlineClose size={14}  onClick={handleClose} />
+        </button>
+      </div>
+        
       <div style={styles.iconsContainer}>
         <LeftBarIcon shape='square' size={15} handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
@@ -36,6 +45,8 @@ const styles = {
     fontSize:14,
     width: "90%",
     //color:'blue'
+    display:'flex',
+    justifyContent:'space-between'
   },
   iconNode:{
     backgroundColor:'#f7f3f3',
@@ -52,5 +63,12 @@ const styles = {
     width: '90%',
     justifyContent:'space-around',
     margin: 10, 
+  },
+  closeButton:{
+    marginTop: 1,
+    width:17,
+    height:17,
+    padding:0,
+    borderWidth:0
   }
 } 

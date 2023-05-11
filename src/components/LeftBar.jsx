@@ -6,6 +6,9 @@ import logo from "../assets/images/logo-sb.png";
 
 export function LeftBar(){
     const [areNodesShown, setAreNodesShown] = useState(false)
+    function handleClose(){
+        setAreNodesShown(false)
+    }
     return <aside style={styles.container}>
       <a href="/#" style={styles.logoLink}>
         <img src={logo} alt="Sibatel logo"  style={styles.logo}/>
@@ -21,7 +24,7 @@ export function LeftBar(){
             } 
          }
       >
-        <NodesMenu/>
+        <NodesMenu isInLeftBar={true} handleClose={handleClose}/>
       </ReactModal>
     </aside>
 }
