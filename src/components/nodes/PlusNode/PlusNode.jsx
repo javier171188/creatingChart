@@ -1,10 +1,10 @@
-import {  useEffect, useState } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
-import { setNode } from '../../stateManagement/slices/plusNode'
+import {   useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setNode } from '../../../stateManagement/slices/plusNode'
 import ReactModal from 'react-modal';
-import { Handle, Position, useViewport } from '../../../../../react-flow/packages/reactflow/dist/esm';
-import NodesMenu from '../NodesMenu';
-
+import { Handle, Position, useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
+import NodesMenu from '../../NodesMenu';
+import './styles.css'
 
 export function PlusNode(props) {
   // const onChange = useCallback((evt) => {
@@ -23,7 +23,7 @@ export function PlusNode(props) {
   
   return (
     <>
-      <div style={styles.labelContainer} onClick={handleClick}>
+      <div className='label-container' onClick={handleClick}>
         <div >+</div>
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />
@@ -50,29 +50,8 @@ export function PlusNode(props) {
             } 
          }
       >
-         <NodesMenu handleClose={handleClick}/>
+         <NodesMenu handleClose={handleClick} isInPlusNodeMenu={true}/>
       </ReactModal>
     </>
   );
-}
-
-const styles = {
-  labelContainer:{ 
-      borderRadius: 10,
-      backgroundColor:'#white',
-      color:'gray',
-      fontSize: 25,
-      display: 'flex',
-      justifyContent:'center',
-      alignItems:'center',
-      height: 40,
-      width: 45,
-  },
-  menuContainer:{
-    position:'absolute',  
-    left: 30,
-    top: 25,
-    width:200,
-    boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",
-  }
 }

@@ -1,0 +1,15 @@
+.label-container {
+  border-radius: 10px;
+  background-color: white;
+  color: gray;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 45px;
+}
+
+.label-container:hover {
+  cursor: pointer;
+}

@@ -3,14 +3,12 @@ import { AiOutlineStar } from 'react-icons/ai';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
+import { setCreatedType } from '../../../stateManagement/slices/plusNode';
 
-import { setCreatedType } from '../stateManagement/slices/plusNode';
+import './styles.css'
 
-
-export function LeftBarIcon({handleClose,shape='star', size=20}){
+export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
     const dispatch = useDispatch()
-    
-  
 
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
@@ -37,7 +35,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20}){
     }
 
     function handleClick(){
-      if(handleClose){
+      if(isInPlusNodeMenu){
         //Icon is in a plus button menu
         handleClose()
         dispatch(setCreatedType(shape))
@@ -47,27 +45,28 @@ export function LeftBarIcon({handleClose,shape='star', size=20}){
       
     }
 
+    // function handleMouseDown(){
+    //   console.log('clicked')
+    // }
+
+    // function handleMouseUp(){
+    //   console.log('left')
+    // }
+
+    // function handleMouseMove(){
+    //   console.log('hovered')
+    // }
+
     return <div 
-                style={styles.iconNode} 
+                className={isInPlusNodeMenu?'from-plus':'from-left'}
                 onDragStart={(event) => onDragStart(event)} 
                 draggable
                 onClick={handleClick}
+                // onMouseDown={handleMouseDown}
+                // onMouseUp={handleMouseUp}
+                // onMouseMove={handleMouseMove}
               >
                 {getIcon()}
-                
             </div>
 }
 
-const styles = {
-    iconNode:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#f7f3f3',
-        margin: 10,
-        borderRadius: 12,
-        boxShadow: '3px 4px 4px -1px rgba(0,0,0,0.61)',
-        width: 28,
-        height: 28
-      }
-}

@@ -13,7 +13,7 @@ import ReactFlow, {
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { TextNode } from './nodes/TextNode'
-import { PlusNode } from './nodes/PlusNode';
+import { PlusNode } from './nodes/PlusNode/PlusNode';
 import { SquareNode } from './nodes/SquareNode';
 import { RectangleNode } from './nodes/RectangleNode';
 import { CircleNode } from './nodes/CircleNode';

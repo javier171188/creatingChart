@@ -1,0 +1,20 @@
+.from-plus,
+.from-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f3f3;
+  margin: 10px;
+  border-radius: 12px;
+  box-shadow: 3px 4px 4px -1px rgba(0, 0, 0, 0.61);
+  width: 28px;
+  height: 28px;
+}
+
+.from-plus:hover {
+  cursor: pointer;
+}
+
+.from-left:hover {
+  cursor: grab;
+}

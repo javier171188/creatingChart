@@ -1,23 +1,23 @@
 import React from 'react';
-import { LeftBarIcon } from './NodeIcon';
+import { LeftBarIcon } from './nodes/NodeIcon/NodeIcon';
 
-export default ({handleClose}) => {
+export default ({handleClose, isInPlusNodeMenu}) => {
   return (
     <aside style={styles.aside}>
       <div style={styles.barTitle}>{handleClose
         ? "Click a node to add it"
         : "Drag a node to add it to the flow"}</div>
       <div style={styles.iconsContainer}>
-        <LeftBarIcon shape='square' size={15} handleClose={handleClose}/>
-        <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}/>
-        <LeftBarIcon shape='circle' size={17} handleClose={handleClose}/>
-        <LeftBarIcon shape='triangle' size={17} handleClose={handleClose}/>
-        <LeftBarIcon shape='triangleDown' size={17} handleClose={handleClose}/>
-        <LeftBarIcon shape='diamond' handleClose={handleClose}/>
-        <LeftBarIcon handleClose={handleClose}/>
-        <LeftBarIcon handleClose={handleClose}/>
-        <LeftBarIcon handleClose={handleClose}/>
-        <LeftBarIcon handleClose={handleClose}/>
+        <LeftBarIcon shape='square' size={15} handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='circle' size={17} handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='triangle' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='triangleDown' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='diamond' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
       </div>    
     </aside>
   );
