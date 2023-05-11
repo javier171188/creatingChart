@@ -33,6 +33,7 @@ function Flow() {
   const [latestNodeId, setLatestNodeId] = useState(null)
   
   const createdType = useSelector(state=> state.plusNode.createdType)
+  const activePlusNodeId = useSelector(state=> state.plusNode.node)
   
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
@@ -44,8 +45,33 @@ function Flow() {
     })
   },[])
 
+  //console.log(nodes)
+
   useEffect(()=>{
-    console.log(createdType)
+    if(!reactFlowInstance)return
+    const activePlusNode = nodes.find(nd=>nd.id===activePlusNodeId)
+    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+    
+
+   const position = reactFlowInstance.project({
+      x: activePlusNode.position.x - reactFlowBounds.left+40,
+      y: activePlusNode.position.y - reactFlowBounds.top,
+    });
+    
+    const newId = `${createdType}-${(new Date()).getTime()}` 
+    const newNode = {
+      id: newId,
+      type:createdType,
+      position,
+      data: { label: `${createdType} node` },
+      selected: true
+    };
+
+    setNodes((nds) => {
+      nds = nds.map(node=> ({...node, selected:false}))
+      return nds.concat(newNode)});
+    setLatestNodeId(newId)
+    
   },
   [createdType])
 
@@ -175,9 +201,8 @@ function Flow() {
         x: event.clientX - reactFlowBounds.left-37,
         y: event.clientY - reactFlowBounds.top-37,
       });
-      //TODO: The ids should have info about the type of node
-      const newId = `${(new Date()).getTime()}` 
       
+      const newId = `${type}-${(new Date()).getTime()}` 
       const newNode = {
         id: newId,
         type,
