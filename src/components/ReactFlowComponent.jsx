@@ -5,7 +5,6 @@ import ReactFlow, {
     useNodesState,
     useEdgesState,
     //addEdge,
-    useViewport
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { TextNode } from './nodes/TextNode'
@@ -31,7 +30,6 @@ export default function Flow() {
   const latestNodeId = useSelector(state => state.reactFlow.latestNodeId)
   const dispatch = useDispatch()
   
-  const { x, y, zoom } = useViewport();
   
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
@@ -42,38 +40,6 @@ export default function Flow() {
       setNodes(newNodes)
     })
   },[])
-
-
-
-  // useEffect(()=>{
-  //   if(!reactFlowInstance)return
-  //   const activePlusNode = nodes.find(nd=>nd.id===activePlusNodeId)
-    
-    
-
-  //  const position = reactFlowInstance.project({
-  //     x: activePlusNode.position.x *zoom + x,
-  //     y: activePlusNode.position.y *zoom + y,
-  //   });
-    
-  //   const newId = `${createdType}-${(new Date()).getTime()}` 
-  //   const newNode = {
-  //     id: newId,
-  //     type:createdType,
-  //     position,
-  //     data: { label: `${createdType} node` },
-  //     selected: true
-  //   };
-
-   
-  //   setNodes((nds) => {
-  //     nds = nds.map(node=> ({...node, selected:false}))
-  //     return nds.concat(newNode)});
-  //   setLatestNodeId(newId)
-    
-  // },
-  // [createdType])
-
 
   const numberOfNodes = nodes.length
   useEffect(()=>{
