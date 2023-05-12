@@ -1,4 +1,4 @@
-import {   useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNode } from '../../../stateManagement/slices/plusNode'
 import ReactModal from 'react-modal';
@@ -10,6 +10,7 @@ export function PlusNode(props) {
   // const onChange = useCallback((evt) => {
   //   console.log(evt.target.value);
   // }, []);
+
   const {xPos,yPos,id} = props
   const dispatch = useDispatch()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -49,6 +50,7 @@ export function PlusNode(props) {
                 }   
             } 
          }
+         onRequestClose={()=>setIsMenuOpen(false)} 
       >
          <NodesMenu handleClose={handleClick} isInPlusNodeMenu={true}/>
       </ReactModal>
