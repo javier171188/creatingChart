@@ -26,7 +26,7 @@ import { DiamondNode } from './nodes/DiamondNode';
 const initialNodes=[ ]
 const displacementDistance = 100 
 
-function Flow() {
+export default function Flow() {
   const { getIntersectingNodes } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -34,8 +34,7 @@ function Flow() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [latestNodeId, setLatestNodeId] = useState(null)
   
-  const createdType = useSelector(state=> state.plusNode.createdType)
-  const activePlusNodeId = useSelector(state=> state.plusNode.node)
+  const activePlusNodeId = useSelector(state=> state.reactFlow.activePlusNodeId)
 
   const { x, y, zoom } = useViewport();
   
@@ -51,34 +50,34 @@ function Flow() {
 
 
 
-  useEffect(()=>{
-    if(!reactFlowInstance)return
-    const activePlusNode = nodes.find(nd=>nd.id===activePlusNodeId)
+  // useEffect(()=>{
+  //   if(!reactFlowInstance)return
+  //   const activePlusNode = nodes.find(nd=>nd.id===activePlusNodeId)
     
     
 
-   const position = reactFlowInstance.project({
-      x: activePlusNode.position.x *zoom + x,
-      y: activePlusNode.position.y *zoom + y,
-    });
+  //  const position = reactFlowInstance.project({
+  //     x: activePlusNode.position.x *zoom + x,
+  //     y: activePlusNode.position.y *zoom + y,
+  //   });
     
-    const newId = `${createdType}-${(new Date()).getTime()}` 
-    const newNode = {
-      id: newId,
-      type:createdType,
-      position,
-      data: { label: `${createdType} node` },
-      selected: true
-    };
+  //   const newId = `${createdType}-${(new Date()).getTime()}` 
+  //   const newNode = {
+  //     id: newId,
+  //     type:createdType,
+  //     position,
+  //     data: { label: `${createdType} node` },
+  //     selected: true
+  //   };
 
    
-    setNodes((nds) => {
-      nds = nds.map(node=> ({...node, selected:false}))
-      return nds.concat(newNode)});
-    setLatestNodeId(newId)
+  //   setNodes((nds) => {
+  //     nds = nds.map(node=> ({...node, selected:false}))
+  //     return nds.concat(newNode)});
+  //   setLatestNodeId(newId)
     
-  },
-  [createdType])
+  // },
+  // [createdType])
 
 
   const numberOfNodes = nodes.length
@@ -311,22 +310,6 @@ function Flow() {
 }
 
 
-function FlowWithProvider() {
-  return (
-    <ReactFlowProvider>
-      <div style={styles.barAndDragging}>
-      <div style={styles.draggingArea}>
-        <Flow>
-        </Flow>
-        <Controls />
-        <MiniMap />
-        </div>
-      </div>
-    </ReactFlowProvider>
-  );
-}
-
-export default FlowWithProvider;
 
 const styles = {
   barAndDragging:{

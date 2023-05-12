@@ -1,8 +1,8 @@
-import {  useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setNode } from '../../../stateManagement/slices/plusNode'
+import { setActivePlusNodeId } from '../../../stateManagement/slices/reactFlow'
 import ReactModal from 'react-modal';
-import { Handle, Position, useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
+import { Handle, Position,  useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
 import NodesMenu from '../../NodesMenu';
 import './styles.css'
 
@@ -18,7 +18,7 @@ export function PlusNode(props) {
 
   function handleClick(){
     setIsMenuOpen(prev=>!prev)
-    dispatch(setNode(id))
+    dispatch(setActivePlusNodeId(id))
   }
 
   

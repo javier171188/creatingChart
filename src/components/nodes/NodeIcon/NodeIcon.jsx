@@ -1,14 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AiOutlineStar } from 'react-icons/ai';
+import { useReactFlow } from '../../../../../../react-flow/packages/reactflow/dist/esm';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
-import { setCreatedType } from '../../../stateManagement/slices/plusNode';
 
 import './styles.css'
 
 export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
-    const dispatch = useDispatch()
+   const activePlusNodeId = useSelector(state=>state.reactFlow.activePlusNodeId)
+   const { addNode, getNode } = useReactFlow()
 
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
@@ -38,7 +39,22 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       if(isInPlusNodeMenu){
         //Icon is in a plus button menu
         handleClose()
-        dispatch(setCreatedType(shape))
+        //dispatch(setCreatedType(shape))
+        // const activePlusNode = getNode(activePlusNodeId)
+        // const position = reactFlowInstance.project({
+        //   x: activePlusNode.position.x *zoom + x,
+        //   y: activePlusNode.position.y *zoom + y,
+        // });
+        
+        // const newId = `${createdType}-${(new Date()).getTime()}` 
+        // const newNode = {
+        //   id: newId,
+        //   type:createdType,
+        //   position,
+        //   data: { label: `${createdType} node` },
+        //   selected: true
+        // };
+        // addNode(newNode)
       }else{
         //Icon is in the left bar menu
       }

@@ -15,8 +15,8 @@ export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
           <AiOutlineClose size={14}  onClick={handleClose} />
         </button>
       </div>
-        
-      <div style={styles.iconsContainer}>
+       
+       <div style={styles.iconsContainer}>
         <LeftBarIcon shape='square' size={15} handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='rectangle' size={18} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='circle' size={17} handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
@@ -26,8 +26,8 @@ export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
-        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
-      </div>    
+        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/> 
+      </div>      
     </aside>
   );
 };

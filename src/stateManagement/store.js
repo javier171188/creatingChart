@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import plusNode from "./slices/plusNode";
+import reactFlow from "./slices/reactFlow";
 
 export default configureStore({
   reducer: {
-    plusNode,
+    reactFlow,
   },
 });
