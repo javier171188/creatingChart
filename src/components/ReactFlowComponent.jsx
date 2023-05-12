@@ -1,11 +1,7 @@
 import React,{ useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ReactFlow, { 
-    ReactFlowProvider,
     useReactFlow,
-    MiniMap,
-    Controls,
-    //Background,
     useNodesState,
     useEdgesState,
     //addEdge,
@@ -21,7 +17,7 @@ import { TriangleNode } from './nodes/TriangleNode';
 import { TriangleDownNode } from './nodes/TriangleDownNode';
 import { StartStopNode } from './nodes/StartStopNode';
 import { DiamondNode } from './nodes/DiamondNode';
-
+import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 
 const initialNodes=[ ]
 const displacementDistance = 100 
@@ -32,10 +28,9 @@ export default function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [latestNodeId, setLatestNodeId] = useState(null)
+  const latestNodeId = useSelector(state => state.reactFlow.latestNodeId)
+  const dispatch = useDispatch()
   
-  const activePlusNodeId = useSelector(state=> state.reactFlow.activePlusNodeId)
-
   const { x, y, zoom } = useViewport();
   
   useEffect(()=>{
@@ -218,7 +213,7 @@ export default function Flow() {
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
         return nds.concat(newNode)});
-      setLatestNodeId(newId)
+      dispatch(setLatestNodeId(newId))
     },
     [reactFlowInstance, setNodes]
   );

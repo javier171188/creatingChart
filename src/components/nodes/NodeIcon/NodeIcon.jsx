@@ -1,15 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineStar } from 'react-icons/ai';
-import { useReactFlow } from '../../../../../../react-flow/packages/reactflow/dist/esm';
+import { useReactFlow, useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
+import { setLatestNodeId } from '../../../stateManagement/slices/reactFlow';
 
 import './styles.css'
 
 export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
    const activePlusNodeId = useSelector(state=>state.reactFlow.activePlusNodeId)
-   const { addNode, getNode } = useReactFlow()
+   const reactFlowInstance = useReactFlow()
+   const { addNodes, getNode, setNodes } = reactFlowInstance
+   
+   const dispatch = useDispatch()
+   const { x, y, zoom } = useViewport();
 
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
@@ -40,21 +45,29 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         //Icon is in a plus button menu
         handleClose()
         //dispatch(setCreatedType(shape))
-        // const activePlusNode = getNode(activePlusNodeId)
-        // const position = reactFlowInstance.project({
-        //   x: activePlusNode.position.x *zoom + x,
-        //   y: activePlusNode.position.y *zoom + y,
-        // });
+        const activePlusNode = getNode(activePlusNodeId)
+        const position = reactFlowInstance.project({
+          x: activePlusNode.position.x *zoom + x - 22,
+          y: activePlusNode.position.y *zoom + y,
+        });
         
-        // const newId = `${createdType}-${(new Date()).getTime()}` 
-        // const newNode = {
-        //   id: newId,
-        //   type:createdType,
-        //   position,
-        //   data: { label: `${createdType} node` },
-        //   selected: true
-        // };
-        // addNode(newNode)
+        const newId = `${shape}-${(new Date()).getTime()}` 
+        const newNode = {
+          id: newId,
+          type:shape,
+          position,
+          data: { label: `${shape} node` },
+          selected: true
+        };
+        setNodes(nds=>nds.map(nd=>{ 
+          if(nd.id===activePlusNode.id){
+            return {...nd, selected:false}
+          }
+          return nd
+        }))
+        addNodes(newNode)
+        dispatch(setLatestNodeId(newId))
+
       }else{
         //Icon is in the left bar menu
       }

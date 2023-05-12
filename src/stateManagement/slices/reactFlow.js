@@ -4,19 +4,19 @@ export const reactFlow = createSlice({
   name: "reactFlow",
   initialState: {
     activePlusNodeId: null,
-    reactFlowInstance: null,
+    latestNodeId: null,
   },
   reducers: {
     setActivePlusNodeId(state, { payload }) {
       state.activePlusNodeId = payload;
       return state;
     },
-    setReactFlowInstance(state, { payload }) {
-      state.reactFlowInstance = payload;
+    setLatestNodeId(state, { payload }) {
+      state.latestNodeId = payload;
       return state;
     },
   },
 });
 
-export const { setActivePlusNodeId, setReactFlowInstance } = reactFlow.actions;
+export const { setActivePlusNodeId, setLatestNodeId } = reactFlow.actions;
 export default reactFlow.reducer;
