@@ -1,12 +1,18 @@
 import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
-export function CircleNode({selected}){
-
+export function CircleNode(props){
+    const {selected} = props
+    function handleClick(){
+        console.log('clicking')
+        console.log(props)
+    }
 
     return <>
         <div style={selected?
             {...styles.nodeContainer, ...styles.selectedNodeContainer}
-            :styles.nodeContainer}>
+            :styles.nodeContainer}
+            onClick={handleClick}
+        >
             click to add text
         </div>
         <Handle type="source" position={Position.Bottom} id="a" />

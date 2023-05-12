@@ -1,0 +1,50 @@
+{"chart":{
+    "nodes": [
+        {
+            "id": "start",
+            "position": {
+                "x": 393,
+                "y": 100
+            },
+            "data": {
+                "label": "Start"
+            },
+            "type": "startStopNode",
+            "deletable": false
+        },
+        {
+            "id": "end",
+            "position": {
+                "x": 398,
+                "y": 300
+            },
+            "data": {
+                "label": "End"
+            },
+            "type": "startStopNode",
+            "deletable": false
+        },
+        {
+            "id": "plus-0",
+            "position": {
+                "x": 400,
+                "y": 200
+            },
+            "type":"plusNode",
+            "deletable":false
+        }
+    ],
+    "edges": [
+        {
+            "id": "start-plus-0",
+            "source": "start",
+            "target": "plus-0"
+        },
+        {
+            "id": "plus-0-end",
+            "source": "plus-0",
+            "target": "end"
+        }
+    ]
+}
+}
