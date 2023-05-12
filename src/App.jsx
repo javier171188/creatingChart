@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactFlowComponent from './components/ReactFlowComponent'
 import { LeftBar } from './components/LeftBar';
-import { ReactFlowProvider } from '../../../react-flow/packages/reactflow/dist/esm';
+import { ReactFlowProvider, MiniMap, Controls, } from '../../../react-flow/packages/reactflow/dist/esm';
 
 
 
@@ -12,6 +12,8 @@ export default function App() {
       <div style={styles.editorContainer}>
           <LeftBar/>
           <ReactFlowComponent/>
+          <MiniMap/>
+          <Controls/>
       </div>
     </ReactFlowProvider>
   );

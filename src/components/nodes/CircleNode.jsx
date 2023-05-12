@@ -1,11 +1,17 @@
-import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm"
+import { Handle, Position, useReactFlow } from "../../../../../react-flow/packages/reactflow/dist/esm"
+
 
 export function CircleNode(props){
-    const {selected} = props
+    const {selected, data:{shownText}, id} = props
+    const { setNodes } = useReactFlow()
+   
     function handleClick(){
-        console.log('clicking')
-        console.log(props)
+        setNodes(nds=>nds.map(nd => {
+            if(nd.id === id) return ({...nd, data:{...nd.data, shownText:'I am modified'}})
+            return nd
+        }))
     }
+
 
     return <>
         <div style={selected?
@@ -13,7 +19,7 @@ export function CircleNode(props){
             :styles.nodeContainer}
             onClick={handleClick}
         >
-            click to add text
+          {shownText? shownText:"click to add text"}
         </div>
         <Handle type="source" position={Position.Bottom} id="a" />
         <Handle type="target" position={Position.Top} id="b"  />
