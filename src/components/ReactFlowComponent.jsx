@@ -16,6 +16,7 @@ import { TriangleNode } from './nodes/TriangleNode';
 import { TriangleDownNode } from './nodes/TriangleDownNode';
 import { StartStopNode } from './nodes/StartStopNode';
 import { DiamondNode } from './nodes/DiamondNode';
+import { FigureNode } from './nodes/FigureNode';
 import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 
 const initialNodes=[ ]
@@ -55,14 +56,8 @@ export default function Flow() {
   
   const nodeTypes = useMemo(() => ({ 
     startStopNode: StartStopNode,
-    diamond: DiamondNode,
-    triangle: TriangleNode,
-    triangleDown: TriangleDownNode,
-    circle: CircleNode,
-    square:SquareNode,
-    rectangle: RectangleNode,
-    textNode: TextNode,
-    plusNode:PlusNode
+    plusNode:PlusNode,
+    figure: FigureNode
   }), [])
   const onConnect = (params) => {
         const sourceNode = nodes.find(nd=>nd.id===params.source)
@@ -170,9 +165,9 @@ export default function Flow() {
       const newId = `${type}-${(new Date()).getTime()}` 
       const newNode = {
         id: newId,
-        type,
+        type: 'figure',
         position,
-        data: { label: `${type} node` },
+        data: { label: `${type} node`,shape:type },
         selected: true
       };
 

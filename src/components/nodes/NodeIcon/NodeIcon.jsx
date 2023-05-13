@@ -54,9 +54,9 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         const newId = `${shape}-${(new Date()).getTime()}` 
         const newNode = {
           id: newId,
-          type:shape,
+          type:'figure',
           position,
-          data: { label: `${shape} node` },
+          data: { label: `${shape} node`, shape },
           selected: true
         };
         setNodes(nds=>nds.map(nd=>{ 
