@@ -7,15 +7,8 @@ import ReactFlow, {
     //addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
-import { TextNode } from './nodes/TextNode'
 import { PlusNode } from './nodes/PlusNode/PlusNode';
-import { SquareNode } from './nodes/SquareNode';
-import { RectangleNode } from './nodes/RectangleNode';
-import { CircleNode } from './nodes/CircleNode';
-import { TriangleNode } from './nodes/TriangleNode';
-import { TriangleDownNode } from './nodes/TriangleDownNode';
 import { StartStopNode } from './nodes/StartStopNode';
-import { DiamondNode } from './nodes/DiamondNode';
 import { FigureNode } from './nodes/FigureNode';
 import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 

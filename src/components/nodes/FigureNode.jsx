@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Handle, Position, useReactFlow } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
-function FigureNodeContainer({selected, handleClickNode, children, shape}){
+function FigureNodeContainer({selected, children, shape}){
     switch (shape){
         case 'circle':
             return <div style={selected?
                 {...styles.circleNodeContainer, ...styles.circleSelectedNodeContainer}
                 :styles.circleNodeContainer}
-                onClick={handleClickNode}
+                
             >
                 {children}
             </div>
@@ -24,32 +24,32 @@ function FigureNodeContainer({selected, handleClickNode, children, shape}){
                 {...styles.rectangleNodeContainer, ...styles.rectangleSelectedNodeContainer}:
                 styles.rectangleNodeContainer
                 }
-                onClick={handleClickNode}
+              
                 >
                     {children}
                 </div>
         case 'triangle':
-            return <div style={styles.triangleNodeContainer} onClick={handleClickNode}>
+            return <div style={styles.triangleNodeContainer} >
                     <div style={styles.triangleTextContainer}>
                     {children}
                     </div>
                 </div>
         case 'triangleDown':
-            return <div style={styles.triangleDownNodeContainer} onClick={handleClickNode}>
+            return <div style={styles.triangleDownNodeContainer} >
                     <div style={styles.triangleDownTextContainer}>{children}</div>
                  </div>
         case 'diamond':
             return <div style={selected?
                         {...styles.diamondNodeContainer,...styles.diamondNodeContainerSelected}:
                         styles.diamondNodeContainer
-                        } onClick={handleClickNode}>
+                        } >
                 <div style={styles.diamondTextContainer}>{children}</div>
                 </div>
         default :
             return <div style={selected?
                     {...styles.squareNodeContainer,...styles.squareselectedNodeContainer}:
                     styles.squareNodeContainer}
-                    onClick={handleClickNode}
+                    
                     >
                     {children}
                 </div>
@@ -85,7 +85,6 @@ export function FigureNode(props){
         <div>
         <FigureNodeContainer 
             selected={selected} 
-            handleClickNode={handleClickNode}
             shape={shape}>
           {
             showingInput? <>
@@ -99,9 +98,12 @@ export function FigureNode(props){
                     <button style={{...styles.button,...styles.cancelButton}} onClick={handleCancel}>cnl</button>
                 </div>
                 </> :
-            shownText? 
+           <> <div>{shownText? 
                 shownText:
-                "click to add text"
+                "No info"}
+                </div>
+                <button style={styles.editButton} onClick={handleClickNode}>Edit</button>
+                </>
             }
         </FigureNodeContainer>
         </div>
