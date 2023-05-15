@@ -13,9 +13,8 @@ function FigureNodeContainer({selected, children, shape}){
             </div>
         case 'square':
             return <div style={selected?
-                {...styles.squareNodeContainer,...styles.squareselectedNodeContainer}:
+                {...styles.squareNodeContainer,...styles.squareSelectedNodeContainer}:
                 styles.squareNodeContainer}
-                onClick={handleClickNode}
                 >
                     {children}
                 </div>
