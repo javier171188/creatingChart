@@ -236,5 +236,11 @@ const styles = {
     },
     cancelButton:{
         backgroundColor: 'red',
+    },
+    editButton:{ 
+        backgroundColor:'rgb(97,209,136)',
+        width: 35,
+        padding:0,
+        marginTop:10
     }
 }
