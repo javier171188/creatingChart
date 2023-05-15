@@ -1,8 +1,9 @@
 import { useState } from "react";
 import ReactModal from 'react-modal';
-import { LeftBarNodeButton } from "./LeftBarNodeBotton";
-import NodesMenu from "./NodesMenu";
-import logo from "../assets/images/logo-sb.png";
+import { LeftBarNodeButton } from "./LeftBarNodeButton";
+import { SaveFlowButton } from "./SaveFlowButton";
+import NodesMenu from "../nodesMenu/NodesMenu";
+import logo from "../../assets/images/logo-sb.png";
 
 export function LeftBar(){
     const [areNodesShown, setAreNodesShown] = useState(false)
@@ -30,6 +31,7 @@ export function LeftBar(){
       >
         <NodesMenu isInLeftBar={true} handleClose={handleClose}/>
       </ReactModal>
+      <SaveFlowButton/>
     </aside>
 }
 

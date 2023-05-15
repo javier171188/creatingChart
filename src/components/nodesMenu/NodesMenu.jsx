@@ -1,5 +1,5 @@
 import React from 'react';
-import { LeftBarIcon } from './nodes/NodeIcon/NodeIcon';
+import { LeftBarIcon } from './NodeIcon/NodeIcon';
 import {AiOutlineClose} from 'react-icons/ai'
 
 export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
