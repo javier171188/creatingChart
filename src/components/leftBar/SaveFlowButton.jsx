@@ -5,7 +5,6 @@ import { useReactFlow } from '../../../../../react-flow/packages/reactflow/dist/
 export function SaveFlowButton(){
     const { toObject } = useReactFlow()
     function handleClick(){
-        console.log('clicking')
         const objFlow = toObject()
         const jsonFlow = JSON.stringify(objFlow)
 
