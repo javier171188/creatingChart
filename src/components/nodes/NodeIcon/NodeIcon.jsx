@@ -60,7 +60,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           selected: true
         };
         setNodes(nds=>nds.map(nd=>{ 
-          if(nd.id!==activePlusNode.id){
+          if(nd.id!==newId){
             return {...nd, selected:false}
           }
           return nd
