@@ -15,6 +15,7 @@ import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 import { nodeSizes } from '../utils/nodesSizes';
 import { OptionsNode } from './nodes/OptionsNode';
 import { generateNodeObj } from '../utils/generateNodeObj';
+import { IfNode } from './nodes/IfNode';
 
 const initialNodes=[ ]
 const displacementDistance = 75
@@ -55,7 +56,8 @@ export default function Flow() {
     startEndNode: StartEndNode,
     plusNode:PlusNode,
     figure: FigureNode,
-    options: OptionsNode
+    options: OptionsNode,
+    ifNode: IfNode
   }), [])
   const onConnect = (params) => {
         const sourceNode = nodes.find(nd=>nd.id===params.source)
@@ -182,11 +184,11 @@ export default function Flow() {
         y: event.clientY - reactFlowBounds.top-37,
       });
       
-      const newNode = generateNodeObj({position, type})
+      const newNodes = generateNodeObj({position, type})
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
-        return nds.concat(newNode)});
-      dispatch(setLatestNodeId(newNode.id))
+        return nds.concat(newNodes)});
+      dispatch(setLatestNodeId(newNodes[0].id))
     },
     [reactFlowInstance, setNodes]
   );

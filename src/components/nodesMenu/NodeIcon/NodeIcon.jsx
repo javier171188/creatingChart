@@ -55,16 +55,16 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           y: activePlusNode.position.y *zoom + y,
         });
         
-        const newNode = generateNodeObj({position, type:shape})
+        const newNodes = generateNodeObj({position, type:shape})
 
         setNodes(nds=>nds.map(nd=>{ 
-          if(nd.id!==newNode.id){
+          if(nd.id!==newNodes[0].id){
             return {...nd, selected:false}
           }
           return nd
         }))
-        addNodes(newNode) 
-        dispatch(setLatestNodeId(newNode.id))
+        addNodes(newNodes) 
+        dispatch(setLatestNodeId(newNodes[0].id))
 
       }else{
         //Icon is in the left bar menu
