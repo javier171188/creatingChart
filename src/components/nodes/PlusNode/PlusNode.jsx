@@ -16,6 +16,7 @@ export function PlusNode(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { x, y, zoom } = useViewport();
 
+
   function handleClick(){
     setIsMenuOpen(prev=>!prev)
     dispatch(setActivePlusNodeId(id))

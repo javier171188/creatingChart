@@ -4,26 +4,28 @@ import ReactFlow, {
     useReactFlow,
     useNodesState,
     useEdgesState,
+    useViewport,
     //addEdge,
 } from '../../../../react-flow/packages/reactflow/dist/esm/index';
 import '../../../../react-flow/packages/reactflow/dist/style.css'
 import { PlusNode } from './nodes/PlusNode/PlusNode';
-import { StartStopNode } from './nodes/StartStopNode';
+import { StartEndNode } from './nodes/StartEndNode';
 import { FigureNode } from './nodes/FigureNode';
 import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
+import { nodeSizes } from '../utils/nodesSizes';
 
 const initialNodes=[ ]
-const displacementDistance = 100 
+const displacementDistance = 75
 
 export default function Flow() {
-  const { getIntersectingNodes } = useReactFlow();
+  const { getIntersectingNodes, project } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const latestNodeId = useSelector(state => state.reactFlow.latestNodeId)
   const dispatch = useDispatch()
-  
+  const { zoom } = useViewport()
   
   useEffect(()=>{
     fetch('http://localhost:3000/chart').then(response=>{
@@ -48,7 +50,7 @@ export default function Flow() {
  
   
   const nodeTypes = useMemo(() => ({ 
-    startStopNode: StartStopNode,
+    startEndNode: StartEndNode,
     plusNode:PlusNode,
     figure: FigureNode
   }), [])
@@ -77,30 +79,38 @@ export default function Flow() {
   }
   
   function createIfIntersectsPlusNode(node){
-    const connectingNodes = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
-    if (connectingNodes.length>0)return
+    const connectingEdges = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
+    if (connectingEdges.length>0)return
     
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
-        const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
-        const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
+      const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
+      const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
 
-        if(!inputEdge || !outputEdge )return
+      if(!inputEdge || !outputEdge )return
         
-        const childNode = nodes.find(node => node.id === outputEdge.target)
-       
+      const childNode = nodes.find(node => node.id === outputEdge.target)
+      console.log(childNode)
         
-      const newPlusButtonId = `plus-${(new Date()).getTime()}`   
+      const newPlusButtonId = `plus-${(new Date()).getTime()}`  
+      const childNodeWidth = nodeSizes[childNode.data.shape].width
+      const plusNodeWidth = nodeSizes.plus.width 
+      console.log(childNodeWidth, plusNodeWidth)
       const bottomPlus = {
         id: newPlusButtonId,
         type:'plusNode',
-        position:{x:childNode.position.x,y:childNode.position.y+displacementDistance},
-        deletable:false
+        position:{
+          x:childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2,
+          y:childNode.position.y + displacementDistance + zoom*32},
+        deletable:false,
+        data: {
+          shape: "plus"
+        }
       }
-      
-      node.position.y = node.position.y+displacementDistance
-      setNodes(nodes=>[...nodes, bottomPlus])
 
+      node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
+      node.position.x = interNodes[0].position.x - 13*zoom
+      setNodes(nodes=>[...nodes, bottomPlus])
 
       moveNodes(childNode,'down')
       setEdges(edges=>{
@@ -112,9 +122,7 @@ export default function Flow() {
         const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, source:newPlusButtonId, target:outputEdge.target}
         newEdges.push(edgeC)
         return newEdges
-      })
-
-    
+      })    
     }
   }
 
@@ -123,7 +131,7 @@ export default function Flow() {
     const mult = yDirection!=='up'? 1:-1
     setNodes(nodes=>nodes.map(nd=>{
       if(nd.id===node.id){
-        return {...nd, position:{x:nd.position.x, y:nd.position.y+ displacementDistance*2*mult}}
+        return {...nd, position:{x:nd.position.x, y:nd.position.y+ (displacementDistance*2 + zoom*40)*mult}}
       }return nd
     }))
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
@@ -253,9 +261,7 @@ export default function Flow() {
             onNodesDelete={onNodesDelete}
             onEdgesDelete={onEdgesDelete}
          />
-      </div>
- 
-        
+      </div>       
 }
 
 

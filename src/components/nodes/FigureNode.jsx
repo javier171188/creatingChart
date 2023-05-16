@@ -62,6 +62,7 @@ export function FigureNode(props){
     const [showingInput, setShowingInput] = useState(false)   
     const [inputValue, setInputValue] = useState(shownText||'')
 
+
     function handleClickNode(){
         setShowingInput(true)
     }
@@ -122,7 +123,7 @@ const styles = {
         backgroundColor:'white',
         borderWidth: 1,
         padding:10,
-        fontSize:12
+        fontSize:12,
     },
     circleSelectedNodeContainer:{
         boxShadow: "3px 2px 5px 1px rgba(0,0,0,0.5)",

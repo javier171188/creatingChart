@@ -1,6 +1,6 @@
 import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
-export function StartStopNode({data}){
+export function StartEndNode({data}){
     const {label} = data
 
     return <>
@@ -17,9 +17,8 @@ const styles = {
         display: 'grid',
         padding:8,
         position:'relative',
-        maxWidth: 210,
-        minWidth: 30,
-        minHeight: 21,
+        width: 38,
+        height: 21,
         placeItems:'center',
         borderStyle:'solid',
         borderWidth:2,
