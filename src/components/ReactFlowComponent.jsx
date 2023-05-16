@@ -13,6 +13,7 @@ import { StartEndNode } from './nodes/StartEndNode';
 import { FigureNode } from './nodes/FigureNode';
 import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 import { nodeSizes } from '../utils/nodesSizes';
+import { OptionsNode } from './nodes/OptionsNode';
 
 const initialNodes=[ ]
 const displacementDistance = 75
@@ -52,7 +53,8 @@ export default function Flow() {
   const nodeTypes = useMemo(() => ({ 
     startEndNode: StartEndNode,
     plusNode:PlusNode,
-    figure: FigureNode
+    figure: FigureNode,
+    options: OptionsNode
   }), [])
   const onConnect = (params) => {
         const sourceNode = nodes.find(nd=>nd.id===params.source)
@@ -95,7 +97,7 @@ export default function Flow() {
      
       const newNodeWidth = node.width || nodeSizes[node.data.shape].width
       const plusNodeWidth = interNodes[0].width || nodeSizes.plus.width
-      const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
+      //const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
      
       const bottomPlus = {
         id: newPlusButtonId,
@@ -182,7 +184,7 @@ export default function Flow() {
       const newId = `${type}-${(new Date()).getTime()}` 
       const newNode = {
         id: newId,
-        type: 'figure',
+        type:type==='options'?type:'figure',
         position,
         data: { label: `${type} node`,shape:type },
         selected: true

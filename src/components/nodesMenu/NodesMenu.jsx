@@ -2,12 +2,12 @@ import React from 'react';
 import { LeftBarIcon } from './NodeIcon/NodeIcon';
 import {AiOutlineClose} from 'react-icons/ai'
 
-export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
+export default ({handleClose, isInPlusNodeMenu}) => {
   
   return (
     <aside style={styles.aside}>
       <div style={styles.barTitle}>
-        <div>{isInLeftBar
+        <div>{!isInPlusNodeMenu
         ? "Drag a node to add it to the flow"
         :"Click a node to add it"}
         </div>
@@ -23,7 +23,7 @@ export default ({handleClose, isInPlusNodeMenu, isInLeftBar=false}) => {
         <LeftBarIcon shape='triangle' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='triangleDown' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='diamond' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
-        <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='options' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/> 

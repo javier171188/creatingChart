@@ -4,6 +4,7 @@ import { useReactFlow, useViewport } from '../../../../../../react-flow/packages
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
+import {ImTree} from 'react-icons/im'
 import { setLatestNodeId } from '../../../stateManagement/slices/reactFlow';
 
 import './styles.css'
@@ -35,6 +36,8 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           return <TbTriangleInverted/>
         case 'diamond':
           return <BsDiamond/>
+        case 'options':
+          return <ImTree/>
         default:
           return <AiOutlineStar size={size} />
       }
