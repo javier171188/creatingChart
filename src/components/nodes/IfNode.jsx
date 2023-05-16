@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { Handle, Position,  } from "../../../../../react-flow/packages/reactflow/dist/esm"
+import { Handle, Position, useReactFlow  } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
 export function IfNode(props){
     const {selected, data:{shownText}, id} = props
+    const { setNodes } = useReactFlow()
     const [showingInput, setShowingInput] = useState(false)  
 
     const [inputValue, setInputValue] = useState(shownText||'')
@@ -53,8 +54,8 @@ export function IfNode(props){
             }
         </div>
         </div>
-        <Handle type="source" position={Position.Left} id="a" />
-        <Handle type="source" position={Position.Right} id="b" />
+        <Handle type="source" position={Position.Left} id="left" />
+        <Handle type="source" position={Position.Right} id="right" />
     </> 
 }
 

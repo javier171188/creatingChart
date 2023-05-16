@@ -21,7 +21,7 @@ const initialNodes=[ ]
 const displacementDistance = 75
 
 export default function Flow() {
-  const { getIntersectingNodes, project } = useReactFlow();
+  const { getIntersectingNodes, addEdges } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -184,15 +184,15 @@ export default function Flow() {
         y: event.clientY - reactFlowBounds.top-37,
       });
       
-      const newNodes = generateNodeObj({position, type})
+      const {newEdges, newNodes} = generateNodeObj({position, type})
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
         return nds.concat(newNodes)});
+      addEdges(newEdges)
       dispatch(setLatestNodeId(newNodes[0].id))
     },
-    [reactFlowInstance, setNodes]
+    [reactFlowInstance, setNodes, addEdges]
   );
-
 
 
    

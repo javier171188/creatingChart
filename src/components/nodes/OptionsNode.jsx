@@ -7,8 +7,9 @@ export function OptionsNode({data}){
         <div style={styles.nodeContainer}>
            
         </div>
-        <Handle type="target" position={Position.Top} id="b"  />
-       <Handle type="source" position={Position.Bottom} id="a" />
+        <Handle type="target" position={Position.Top} id="top-target"  />
+       <Handle type="source" position={Position.Bottom} id="bottom-source" />
+       <Handle type="target" position={Position.Bottom} id="bottom-target"  />
     </> 
 }
 
@@ -16,9 +17,10 @@ const styles = {
     nodeContainer:{
         placeItems:'center',
         borderStyle:'solid',
-        height: 200,
+        height: 225,
         width: 200,
         borderColor:'rgb(61,159,255)',
         borderWidth: 1,
+        //backgroundColor: 'white'
     }
 }

@@ -1,5 +1,6 @@
 export function generateNodeObj({ position, type }) {
   const newNodes = [];
+  const newEdges = [];
   const newId = `${type}-${new Date().getTime()}`;
   const newNode = {
     id: newId,
@@ -10,7 +11,7 @@ export function generateNodeObj({ position, type }) {
   };
   newNodes.push(newNode);
   if (type === "options") {
-    const plusButtonsY = 125;
+    const plusButtonsY = 150;
     const ifNodeId = `if-${new Date().getTime()}`;
     const ifNodeNode = {
       id: ifNodeId,
@@ -42,6 +43,31 @@ export function generateNodeObj({ position, type }) {
       extent: "parent",
     };
     newNodes.push(elseNode);
+
+    const thenEdge = {
+      id: `${ifNodeId}-${thenId}-${new Date().getTime()}`,
+      source: ifNodeId,
+      target: thenId,
+      label: "then",
+    };
+    newEdges.push(thenEdge);
+
+    const elseEdge = {
+      id: `${ifNodeId}-${elseId}-${new Date().getTime()}`,
+      source: ifNodeId,
+      target: elseId,
+      label: "else",
+      sourceHandle: "right",
+    };
+    newEdges.push(elseEdge);
+
+    // const thenContinue = {
+    //   id: `${thenId}-flow-${new Date().getTime()}`,
+    //   source: elseId,
+    //   target: newId,
+    //   targetHandle: "bottom-target",
+    // };
+    // newEdges.push(thenContinue);
   }
-  return newNodes;
+  return { newNodes, newEdges };
 }

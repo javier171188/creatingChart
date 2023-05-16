@@ -13,7 +13,7 @@ import './styles.css'
 export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
    const activePlusNodeId = useSelector(state=>state.reactFlow.activePlusNodeId)
    const reactFlowInstance = useReactFlow()
-   const { addNodes, getNode, setNodes } = reactFlowInstance
+   const { addNodes,addEdges, getNode, setNodes } = reactFlowInstance
    
    const dispatch = useDispatch()
    const { x, y, zoom } = useViewport();
@@ -55,7 +55,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           y: activePlusNode.position.y *zoom + y,
         });
         
-        const newNodes = generateNodeObj({position, type:shape})
+        const {newEdges,newNodes} = generateNodeObj({position, type:shape})
 
         setNodes(nds=>nds.map(nd=>{ 
           if(nd.id!==newNodes[0].id){
@@ -64,6 +64,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           return nd
         }))
         addNodes(newNodes) 
+        addEdges(newEdges)
         dispatch(setLatestNodeId(newNodes[0].id))
 
       }else{
