@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactFlowComponent from './components/ReactFlowComponent'
 import { LeftBar } from './components/leftBar/LeftBar';
-import { ReactFlowProvider, MiniMap, Controls, } from '../../../react-flow/packages/reactflow/dist/esm';
+import { ReactFlowProvider, MiniMap, Controls } from '../../../react-flow/packages/reactflow/dist/esm';
 
 
 

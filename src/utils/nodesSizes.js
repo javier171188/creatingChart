@@ -16,11 +16,23 @@ export const nodeSizes = {
     heigh: 74,
   },
   rectangle: {
-    width: 100,
-    heigh: 50,
+    width: 122,
+    heigh: 75,
   },
   diamond: {
     width: Math.sqrt(2) * 50,
     heigh: Math.sqrt(2) * 50,
+  },
+  triangle: {
+    width: 150,
+    heigh: 75,
+  },
+  triangleDown: {
+    width: 150,
+    heigh: 75,
+  },
+  star: {
+    width: 72,
+    heigh: 73,
   },
 };

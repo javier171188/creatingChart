@@ -90,12 +90,13 @@ export default function Flow() {
       if(!inputEdge || !outputEdge )return
         
       const childNode = nodes.find(node => node.id === outputEdge.target)
-      console.log(childNode)
         
       const newPlusButtonId = `plus-${(new Date()).getTime()}`  
-      const childNodeWidth = nodeSizes[childNode.data.shape].width
-      const plusNodeWidth = nodeSizes.plus.width 
-      console.log(childNodeWidth, plusNodeWidth)
+     
+      const newNodeWidth = node.width || nodeSizes[node.data.shape].width
+      const plusNodeWidth = interNodes[0].width || nodeSizes.plus.width
+      const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
+     
       const bottomPlus = {
         id: newPlusButtonId,
         type:'plusNode',
@@ -108,9 +109,20 @@ export default function Flow() {
         }
       }
 
-      node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
-      node.position.x = interNodes[0].position.x - 13*zoom
-      setNodes(nodes=>[...nodes, bottomPlus])
+      //node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
+      //node.position.x = interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)
+      //console.log(interNodes,nodes) 
+      
+      setNodes(nodes=>[...nodes, bottomPlus].map(nd=>{
+        if(nd.id===node.id){
+          return {...nd, position:{
+            y: interNodes[0].position.y + displacementDistance + 15*zoom,
+            x: interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)/2
+          }}
+        }return nd
+      }))
+      
+
 
       moveNodes(childNode,'down')
       setEdges(edges=>{
@@ -179,7 +191,7 @@ export default function Flow() {
     },
     [reactFlowInstance, setNodes]
   );
-
+   
   function onNodeDragStop(event, node){
     createIfIntersectsPlusNode(node)
   }
