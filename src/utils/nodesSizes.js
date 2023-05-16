@@ -1,19 +1,19 @@
 export const nodeSizes = {
   startEnd: {
-    width: 42,
-    heigh: 25,
+    width: 58,
+    heigh: 41,
   },
   plus: {
     width: 45,
     heigh: 40,
   },
   circle: {
-    width: 52,
-    heigh: 52,
+    width: 72,
+    heigh: 72,
   },
   square: {
-    width: 50,
-    heigh: 50,
+    width: 74,
+    heigh: 74,
   },
   rectangle: {
     width: 100,
