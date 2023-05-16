@@ -14,6 +14,7 @@ import { FigureNode } from './nodes/FigureNode';
 import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 import { nodeSizes } from '../utils/nodesSizes';
 import { OptionsNode } from './nodes/OptionsNode';
+import { generateNodeObj } from '../utils/generateNodeObj';
 
 const initialNodes=[ ]
 const displacementDistance = 75
@@ -181,22 +182,17 @@ export default function Flow() {
         y: event.clientY - reactFlowBounds.top-37,
       });
       
-      const newId = `${type}-${(new Date()).getTime()}` 
-      const newNode = {
-        id: newId,
-        type:type==='options'?type:'figure',
-        position,
-        data: { label: `${type} node`,shape:type },
-        selected: true
-      };
-
+      const newNode = generateNodeObj({position, type})
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
         return nds.concat(newNode)});
-      dispatch(setLatestNodeId(newId))
+      dispatch(setLatestNodeId(newNode.id))
     },
     [reactFlowInstance, setNodes]
   );
+
+
+
    
   function onNodeDragStop(event, node){
     createIfIntersectsPlusNode(node)

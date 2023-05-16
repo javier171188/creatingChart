@@ -7,21 +7,23 @@
                 "y": 100
             },
             "data": {
-                "label": "Start"
+                "label": "Start",
+                "shape": "startEnd"
             },
-            "type": "startStopNode",
+            "type": "startEndNode",
             "deletable": false
         },
         {
             "id": "end",
             "position": {
-                "x": 398,
+                "x": 393,
                 "y": 300
             },
             "data": {
-                "label": "End"
+                "label": "End",
+                "shape": "startEnd"
             },
-            "type": "startStopNode",
+            "type": "startEndNode",
             "deletable": false
         },
         {
@@ -31,7 +33,10 @@
                 "y": 200
             },
             "type":"plusNode",
-            "deletable":false
+            "deletable":false,
+            "data": {
+                "shape": "plus"
+            }
         }
     ],
     "edges": [

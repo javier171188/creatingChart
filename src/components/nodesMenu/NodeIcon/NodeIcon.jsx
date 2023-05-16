@@ -6,6 +6,7 @@ import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
 import {ImTree} from 'react-icons/im'
 import { setLatestNodeId } from '../../../stateManagement/slices/reactFlow';
+import { generateNodeObj } from '../../../utils/generateNodeObj';
 
 import './styles.css'
 
@@ -54,22 +55,16 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           y: activePlusNode.position.y *zoom + y,
         });
         
-        const newId = `${shape}-${(new Date()).getTime()}` 
-        const newNode = {
-          id: newId,
-          type:'figure',
-          position,
-          data: { label: `${shape} node`, shape },
-          selected: true
-        };
+        const newNode = generateNodeObj({position, type:shape})
+
         setNodes(nds=>nds.map(nd=>{ 
-          if(nd.id!==newId){
+          if(nd.id!==newNode.id){
             return {...nd, selected:false}
           }
           return nd
         }))
         addNodes(newNode) 
-        dispatch(setLatestNodeId(newId))
+        dispatch(setLatestNodeId(newNode.id))
 
       }else{
         //Icon is in the left bar menu
