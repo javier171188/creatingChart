@@ -101,13 +101,17 @@ export default function Flow() {
         id: newPlusButtonId,
         type:'plusNode',
         position:{
-          x:childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2,
+          //x:childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2,
+          x:interNodes[0].position.x,
           y:childNode.position.y + displacementDistance + zoom*32},
         deletable:false,
         data: {
           shape: "plus"
         }
       }
+
+      // console.log('parent plus', interNodes[0].position.x)
+      // console.log('new plus',childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2)
 
       //node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
       //node.position.x = interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)
