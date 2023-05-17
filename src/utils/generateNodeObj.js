@@ -17,13 +17,14 @@ export function generateNodeObj({ position, type, parentNodeId }) {
     const ifNodeNode = {
       id: ifNodeId,
       type: "ifNode",
-      position: { x: 65, y: 20 },
+      position: { x: 60, y: 20 },
       selected: false,
       parentNode: newId,
       extent: "parent",
-      data: { label: "if: ", shape: "diamond" },
+      data: { label: "if: ", shape: "diamond", shownText: "If" },
       draggable: false,
-      selectable: false,
+      // selectable: false,
+      deletable: false,
     };
     newNodes.push(ifNodeNode);
     const thenId = `plus-then-${new Date().getTime()}`;
@@ -40,7 +41,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
     const elseNode = {
       id: elseId,
       type: "plusNode",
-      position: { x: 150, y: plusButtonsY },
+      position: { x: 200, y: plusButtonsY },
       selected: false,
       parentNode: newId,
       extent: "parent",

@@ -15,7 +15,7 @@ import { setLatestNodeId } from '../stateManagement/slices/reactFlow';
 import { nodeSizes } from '../utils/nodesSizes';
 import { OptionsNode } from './nodes/OptionsNode';
 import { generateNodeObj } from '../utils/generateNodeObj';
-import { IfNode } from './nodes/IfNode';
+import { IfNode } from './nodes/IfNode/IfNode';
 
 const initialNodes=[ ]
 const displacementDistance = 75
