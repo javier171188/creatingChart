@@ -21,7 +21,7 @@ const initialNodes=[ ]
 const displacementDistance = 75
 
 export default function Flow() {
-  const { getIntersectingNodes, addEdges } = useReactFlow();
+  const { addEdges, deleteElements, getIntersectingNodes } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -205,36 +205,37 @@ export default function Flow() {
   }
  
   function onNodeDelete(node){
+
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
 
     if(!bottomEdge && !upperEdge)return
    
-    if(!bottomEdge){
-      const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
-      const remainingEdge = edges.find(edg=>edg.target===parentPlusNode.id)
-      setNodes(nds => nds.filter(nd=>nd.id!==parentPlusNode.id))
-      setEdges(edges=>edges.filter(edg=>edg.id!==upperEdge.id &&edg.id!==remainingEdge.id))
-      return
-    }
-    if(!upperEdge){
-      const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
-      const remainingEdge = edges.find(edg=>edg.source===childPlusNode.id)
-      setNodes(nds => nds.filter(nd=>nd.id!==childPlusNode.id))
-      setEdges(edges=>edges.filter(edg=>edg.id!==bottomEdge.id &&edg.id!==remainingEdge.id))
-      return
-    }
+    // if(!bottomEdge){
+    //   const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
+    //   const remainingEdge = edges.find(edg=>edg.target===parentPlusNode.id)
+    //   setNodes(nds => nds.filter(nd=>nd.id!==parentPlusNode.id))
+    //   setEdges(edges=>edges.filter(edg=>edg.id!==upperEdge.id &&edg.id!==remainingEdge.id))
+    //   return
+    // }
+    // if(!upperEdge){
+    //   const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
+    //   const remainingEdge = edges.find(edg=>edg.source===childPlusNode.id)
+    //   setNodes(nds => nds.filter(nd=>nd.id!==childPlusNode.id))
+    //   setEdges(edges=>edges.filter(edg=>edg.id!==bottomEdge.id &&edg.id!==remainingEdge.id))
+    //   return
+    // }
     
-    const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
-    const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
-    const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
-    setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
+    // const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
+    // const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
+    // const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
+    // setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     
-    const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
-    setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
+    // const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
+    // setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
 
-    const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
-    moveNodes(newBottomNode,'up')
+    // const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
+    // moveNodes(newBottomNode,'up')
   }
   
   function onEdgesDelete(edges){

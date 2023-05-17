@@ -10,6 +10,7 @@ export function generateNodeObj({ position, type }) {
     selected: false,
   };
   newNodes.push(newNode);
+
   if (type === "options") {
     const plusButtonsY = 150;
     const ifNodeId = `if-${new Date().getTime()}`;
@@ -21,6 +22,8 @@ export function generateNodeObj({ position, type }) {
       parentNode: newId,
       extent: "parent",
       data: { label: "if: ", shape: "diamond" },
+      draggable: false,
+      selectable: false,
     };
     newNodes.push(ifNodeNode);
     const thenId = `plus-then-${new Date().getTime()}`;
@@ -43,7 +46,6 @@ export function generateNodeObj({ position, type }) {
       extent: "parent",
     };
     newNodes.push(elseNode);
-
     const thenEdge = {
       id: `${ifNodeId}-${thenId}-${new Date().getTime()}`,
       source: ifNodeId,
@@ -51,7 +53,6 @@ export function generateNodeObj({ position, type }) {
       label: "then",
     };
     newEdges.push(thenEdge);
-
     const elseEdge = {
       id: `${ifNodeId}-${elseId}-${new Date().getTime()}`,
       source: ifNodeId,
@@ -60,7 +61,6 @@ export function generateNodeObj({ position, type }) {
       sourceHandle: "right",
     };
     newEdges.push(elseEdge);
-
     // const thenContinue = {
     //   id: `${thenId}-flow-${new Date().getTime()}`,
     //   source: elseId,
