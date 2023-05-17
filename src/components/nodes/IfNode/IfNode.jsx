@@ -32,6 +32,7 @@ export function IfNode(props){
         </div>
         <Handle type="source" position={Position.Left} id="left" />
         <Handle type="source" position={Position.Right} id="right" />
+        <Handle type="target" position={Position.Top} id="top" />
         <div className="if-text-container">
             {
             showingInput? <>

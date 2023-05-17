@@ -12,12 +12,12 @@ export function generateNodeObj({ position, type, parentNodeId }) {
   newNodes.push(newNode);
 
   if (type === "options") {
-    const plusButtonsY = 150;
+    const plusButtonsY = 115;
     const ifNodeId = `if-${new Date().getTime()}`;
     const ifNodeNode = {
       id: ifNodeId,
       type: "ifNode",
-      position: { x: 60, y: 20 },
+      position: { x: 61.5, y: 30 },
       selected: false,
       parentNode: newId,
       extent: "parent",
@@ -49,6 +49,39 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       //draggable: false,
     };
     newNodes.push(elseNode);
+
+    const bottomHandlerId = `handler-bottom-${new Date().getTime()}`;
+    const bottomHandler = {
+      id: bottomHandlerId,
+      type: "internalHandler",
+      position: { x: 125, y: 251 },
+      selected: false,
+      parentNode: newId,
+      extent: "parent",
+      //draggable: false,
+    };
+    newNodes.push(bottomHandler);
+
+    const topHandlerId = `handler-top-${new Date().getTime()}`;
+    const topHandler = {
+      id: topHandlerId,
+      type: "internalHandler",
+      position: { x: 125, y: 0 },
+      selected: false,
+      parentNode: newId,
+      extent: "parent",
+      //draggable: false,
+    };
+    newNodes.push(topHandler);
+
+    const topEdge = {
+      id: `top-${ifNodeId}-${new Date().getTime()}`,
+      source: topHandlerId,
+      target: ifNodeId,
+      type: "step",
+    };
+    newEdges.push(topEdge);
+
     const thenEdge = {
       id: `${ifNodeId}-${thenId}-${new Date().getTime()}`,
       source: ifNodeId,
@@ -64,13 +97,21 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       type: "step",
     };
     newEdges.push(elseEdge);
-    // const thenContinue = {
-    //   id: `${thenId}-flow-${new Date().getTime()}`,
-    //   source: elseId,
-    //   target: newId,
-    //   targetHandle: "bottom-target",
-    // };
-    // newEdges.push(thenContinue);
+    const thenContinue = {
+      id: `${thenId}-flow-${new Date().getTime()}`,
+      source: thenId,
+      target: bottomHandlerId,
+      type: "step",
+    };
+    newEdges.push(thenContinue);
+
+    const elseContinue = {
+      id: `${elseId}-flow-${new Date().getTime()}`,
+      source: elseId,
+      target: bottomHandlerId,
+      type: "step",
+    };
+    newEdges.push(elseContinue);
   }
   return { newNodes, newEdges };
 }

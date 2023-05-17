@@ -16,6 +16,7 @@ import { nodeSizes } from '../utils/nodesSizes';
 import { OptionsNode } from './nodes/OptionsNode';
 import { generateNodeObj } from '../utils/generateNodeObj';
 import { IfNode } from './nodes/IfNode/IfNode';
+import { InternalHandler } from './nodes/InternalHandler';
 
 const initialNodes=[ ]
 const displacementDistance = 75
@@ -57,7 +58,8 @@ export default function Flow() {
     plusNode:PlusNode,
     figure: FigureNode,
     options: OptionsNode,
-    ifNode: IfNode
+    ifNode: IfNode,
+    internalHandler: InternalHandler
   }), [])
   const onConnect = (params) => {
         const sourceNode = nodes.find(nd=>nd.id===params.source)
