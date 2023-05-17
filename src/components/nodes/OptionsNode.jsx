@@ -17,7 +17,7 @@ const styles = {
     nodeContainer:{
         placeItems:'center',
         borderStyle:'solid',
-        height: 225,
+        height: 400,
         width: 200,
         borderColor:'rgb(61,159,255)',
         borderWidth: 1,

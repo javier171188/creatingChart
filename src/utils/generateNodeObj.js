@@ -1,4 +1,4 @@
-export function generateNodeObj({ position, type }) {
+export function generateNodeObj({ position, type, parentNodeId }) {
   const newNodes = [];
   const newEdges = [];
   const newId = `${type}-${new Date().getTime()}`;
@@ -50,15 +50,15 @@ export function generateNodeObj({ position, type }) {
       id: `${ifNodeId}-${thenId}-${new Date().getTime()}`,
       source: ifNodeId,
       target: thenId,
-      label: "then",
+      type: "step",
     };
     newEdges.push(thenEdge);
     const elseEdge = {
       id: `${ifNodeId}-${elseId}-${new Date().getTime()}`,
       source: ifNodeId,
       target: elseId,
-      label: "else",
       sourceHandle: "right",
+      type: "step",
     };
     newEdges.push(elseEdge);
     // const thenContinue = {

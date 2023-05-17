@@ -12,7 +12,7 @@ export default function App() {
       <div style={styles.editorContainer}>
           <LeftBar/>
           <ReactFlowComponent/>
-          <MiniMap/>
+          <MiniMap pannable/>
           <Controls/>
       </div>
     </ReactFlowProvider>

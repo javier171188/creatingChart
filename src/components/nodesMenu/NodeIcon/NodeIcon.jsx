@@ -54,7 +54,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           x: activePlusNode.position.x *zoom + x - 22,
           y: activePlusNode.position.y *zoom + y,
         });
-        
+        console.log(activePlusNode)
         const {newEdges,newNodes} = generateNodeObj({position, type:shape})
 
         setNodes(nds=>nds.map(nd=>{ 
