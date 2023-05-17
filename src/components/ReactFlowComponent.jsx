@@ -165,7 +165,6 @@ export default function Flow() {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
-
   
 
   const onDrop = useCallback(
@@ -194,8 +193,6 @@ export default function Flow() {
     [reactFlowInstance, setNodes, addEdges]
   );
 
-
-   
   function onNodeDragStop(event, node){
     createIfIntersectsPlusNode(node)
   }
@@ -222,7 +219,7 @@ export default function Flow() {
       const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
       const remainingEdge = edges.find(edg=>edg.source===childPlusNode.id)
       setNodes(nds => nds.filter(nd=>nd.id!==childPlusNode.id))
-      setEdges(edges=>edges.filter(edg=>edg.id!==bottomEdge.id &&edg.id!==remainingEdge.id))
+      setEdges(edges=>edges.filter(edg=>edg.id!==bottomEdge.id &&edg.id!==remainingEdge?.id))
       return
     }
     
