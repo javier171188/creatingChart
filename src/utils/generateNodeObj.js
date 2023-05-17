@@ -22,7 +22,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       parentNode: newId,
       extent: "parent",
       data: { label: "if: ", shape: "diamond", shownText: "If" },
-      draggable: false,
+      //draggable: false,
       // selectable: false,
       deletable: false,
     };
@@ -35,6 +35,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       selected: false,
       parentNode: newId,
       extent: "parent",
+      //draggable: false,
     };
     newNodes.push(thenNode);
     const elseId = `plus-else-${new Date().getTime()}`;
@@ -45,6 +46,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       selected: false,
       parentNode: newId,
       extent: "parent",
+      //draggable: false,
     };
     newNodes.push(elseNode);
     const thenEdge = {

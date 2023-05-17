@@ -45,7 +45,7 @@ export function IfNode(props){
                     <button className="button cancel-button" onClick={handleCancel}>cnl</button>
                 </div>
                 </> :
-        <> <div>
+        <> <div className="shown-text">
             {shownText? 
                 shownText:
                 "option"}
