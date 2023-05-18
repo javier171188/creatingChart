@@ -7,13 +7,14 @@ import {TbTriangleInverted} from 'react-icons/tb'
 import {ImTree} from 'react-icons/im'
 import { setLatestNodeId } from '../../../stateManagement/slices/reactFlow';
 import { generateNodeObj } from '../../../utils/generateNodeObj';
+import { mergeNodeToFlow } from '../../../utils/mergingFunctions';
 
 import './styles.css'
 
 export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
    const activePlusNodeId = useSelector(state=>state.reactFlow.activePlusNodeId)
    const reactFlowInstance = useReactFlow()
-   const { addNodes,addEdges, getEdges, getNode, setNodes } = reactFlowInstance
+   const { addNodes, getEdges, getNode, getNodes, setEdges, setNodes } = reactFlowInstance
    
    const dispatch = useDispatch()
    const { x, y, zoom } = useViewport();
@@ -50,8 +51,13 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         handleClose()
        
         const activePlusNode = getNode(activePlusNodeId)
+        const {newNodes} = generateNodeObj({ type:shape, activePlusNode})
 
-        //Merge
+        const edges = getEdges()
+        const nodes = getNodes()
+        
+        mergeNodeToFlow({plusNode: activePlusNode, 
+          newNode: newNodes[0], edges, nodes, setEdges, setNodes, zoom})
 
         // const edges = getEdges()
         // const inputEdge = edges.find(edge=>edge.target===activePlusNodeId)
@@ -62,7 +68,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         //   y: activePlusNode.position.y,
         // };
         
-        // const {newEdges,newNodes} = generateNodeObj({ type:shape, activePlusNode})
+        
 
         // setNodes(nds=>nds.map(nd=>{ 
         //   if(nd.id!==newNodes[0].id){

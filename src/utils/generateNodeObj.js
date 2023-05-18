@@ -20,7 +20,7 @@ export function generateNodeObj({ position, type, activePlusNode }) {
   } else {
     newNode.position = position;
   }
-  console.log(activePlusNode);
+
   const isInSubFlow =
     activePlusNode?.id.includes("then") || activePlusNode?.id.includes("else");
   if (isInSubFlow) {

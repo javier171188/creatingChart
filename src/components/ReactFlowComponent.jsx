@@ -48,7 +48,6 @@ export default function Flow() {
         if(checkingNode){ 
           createIfIntersectsPlusNode(checkingNode)
          }
-         console.log(checkingNode)
     },100)   
     
   },[numberOfNodes])
@@ -122,6 +121,7 @@ export default function Flow() {
       });
       
       const {newEdges, newNodes} = generateNodeObj({position, type})
+      
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
         return nds.concat(newNodes)});
@@ -130,7 +130,7 @@ export default function Flow() {
     },
     [reactFlowInstance, setNodes, addEdges]
   );
-
+    console.log(nodes)
   function onNodeDragStop(event, node){
     createIfIntersectsPlusNode(node)
   }

@@ -35,23 +35,45 @@ export function mergeNodeToFlow({
     },
   };
 
-  setNodes((nodes) =>
-    [...nodes, bottomPlus].map((nd) => {
-      if (nd.id === newNode.id) {
-        return {
-          ...nd,
-          position: {
-            y: plusNode.position.y + displacementDistance + 15 * zoom,
-            x:
-              plusNode.position.x + (zoom * (plusNodeWidth - newNodeWidth)) / 2,
-          },
-        };
-      }
-      return nd;
-    })
-  );
+  const existingNewNode = nodes.some((nd) => nd.id === newNode.id);
+  console.log(existingNewNode);
 
-  moveNodes(childNode, "down", edges, nodes, setNodes, zoom);
+  const newNodes = [...nodes, bottomPlus].map((nd) => {
+    if (nd.id === newNode.id) {
+      return {
+        ...nd,
+        position: {
+          y: plusNode.position.y + displacementDistance + 15 * zoom,
+          x: plusNode.position.x + (zoom * (plusNodeWidth - newNodeWidth)) / 2,
+        },
+      };
+    }
+    return nd;
+  });
+
+  if (!existingNewNode) {
+    newNodes.push(newNode);
+  }
+
+  setNodes(newNodes);
+  // setNodes((nodes) =>
+  //   [...nodes, bottomPlus].map((nd) => {
+  //     if (nd.id === newNode.id) {
+  //       return {
+  //         ...nd,
+  //         position: {
+  //           y: plusNode.position.y + displacementDistance + 15 * zoom,
+  //           x:
+  //             plusNode.position.x +
+  //             (zoom * (plusNodeWidth - newNodeWidth)) / 2,
+  //         },
+  //       };
+  //     }
+  //     return nd;
+  //   })
+  // );
+
+  moveNodes(childNode, "down", edges, newNodes, setNodes, zoom);
   setEdges((edges) => {
     const newEdges = edges.filter((edge) => outputEdge.id !== edge.id);
     const edgeA = {

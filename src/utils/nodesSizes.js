@@ -35,4 +35,8 @@ export const nodeSizes = {
     width: 72,
     heigh: 73,
   },
+  options: {
+    width: 252,
+    heigh: 252,
+  },
 };
