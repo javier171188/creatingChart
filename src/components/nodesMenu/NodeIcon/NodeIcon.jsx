@@ -49,12 +49,12 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       }
     }
 
-    function moveNodes(node,yDirection='up'){ 
+    function moveNodes(node,yDirection='up',nodeHeight=75){ 
       //TODO: Avoid repetition in ReactFlow component
       const mult = yDirection!=='up'? 1:-1
       setNodes(nodes=>nodes.map(nd=>{
         if(nd.id===node.id){
-          return {...nd, position:{x:nd.position.x, y:nd.position.y+ (displacementDistance*2 + zoom*40)*mult}}
+          return {...nd, position:{x:nd.position.x, y:nd.position.y+ (displacementDistance + nodeHeight + zoom*40)*mult}}
         }
         return nd
       }))
@@ -62,7 +62,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       const outgoingEdge = edges.find(edg=>edg.source===node.id)
       if(!outgoingEdge)return
       const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
-      setTimeout(()=>moveNodes(childNode, yDirection), 0)
+      setTimeout(()=>moveNodes(childNode, yDirection, nodeHeight), 0)
       
     }
 
@@ -88,14 +88,14 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           type:'plusNode',
           position:{
             x:activePlusNode.position.x ,
-            y:childNode.position.y + displacementDistance * zoom + newNodeHeigh/2 },
+            y:childNode.position.y + displacementDistance/2 * zoom + newNodeHeigh },
           deletable:false,
           data: {
             shape: "plus"
           }
         }
 
-        moveNodes(childNode, 'down')
+        moveNodes(childNode, 'down', newNodeHeigh)
         const position = {
           x: activePlusNode.position.x + zoom*(plusNodeWidth - newNodeWidth)/2,
           y: activePlusNode.position.y + displacementDistance * zoom
