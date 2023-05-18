@@ -117,12 +117,8 @@ export default function Flow() {
         }
       }
 
-      // console.log('parent plus', interNodes[0].position.x)
-      // console.log('new plus',childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2)
-
       //node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
       //node.position.x = interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)
-      //console.log(interNodes,nodes) 
       
       setNodes(nodes=>[...nodes, bottomPlus].map(nd=>{
         if(nd.id===node.id){
@@ -204,11 +200,11 @@ export default function Flow() {
   }
  
   function onNodeDelete(node){
-
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
 
     if(!bottomEdge && !upperEdge)return
+    
    
     if(!bottomEdge){
       const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
@@ -228,6 +224,7 @@ export default function Flow() {
     const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
+    if(!bottomNodeEdge) return
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
