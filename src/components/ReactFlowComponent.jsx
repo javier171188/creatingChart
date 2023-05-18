@@ -149,8 +149,8 @@ export default function Flow() {
     }
   }
 
-
   function moveNodes(node,yDirection='up'){ 
+    //TODO: Avoid repetition in NodeICon component
     const mult = yDirection!=='up'? 1:-1
     setNodes(nodes=>nodes.map(nd=>{
       if(nd.id===node.id){
