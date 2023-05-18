@@ -48,6 +48,7 @@ export default function Flow() {
         if(checkingNode){ 
           createIfIntersectsPlusNode(checkingNode)
          }
+         console.log(checkingNode)
     },100)   
     
   },[numberOfNodes])

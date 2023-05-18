@@ -49,13 +49,21 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         //Icon is in a plus button menu
         handleClose()
         //dispatch(setCreatedType(shape))
+
+        
+
+
         const activePlusNode = getNode(activePlusNodeId)
-        const position = reactFlowInstance.project({
-          x: activePlusNode.position.x *zoom + x - 22,
-          y: activePlusNode.position.y *zoom + y,
-        });
-        console.log(activePlusNode)
-        const {newEdges,newNodes} = generateNodeObj({position, type:shape})
+
+        const inputEdge = edges.find(edge=>edge.target===activePlusNode.id)
+        const outputEdge = edges.find(edge=>edge.source===activePlusNode.id)
+
+        const position = {
+          x: activePlusNode.position.x,
+          y: activePlusNode.position.y,
+        };
+        
+        const {newEdges,newNodes} = generateNodeObj({ type:shape, activePlusNode})
 
         setNodes(nds=>nds.map(nd=>{ 
           if(nd.id!==newNodes[0].id){

@@ -1,14 +1,32 @@
-export function generateNodeObj({ position, type, parentNodeId }) {
+import { nodeSizes } from "./nodesSizes";
+
+export function generateNodeObj({ position, type, activePlusNode }) {
   const newNodes = [];
   const newEdges = [];
+
   const newId = `${type}-${new Date().getTime()}`;
   const newNode = {
     id: newId,
     type: type === "options" ? type : "figure",
-    position,
     data: { label: `${type} node`, shape: type },
     selected: false,
   };
+
+  if (!position) {
+    newNode.position = {
+      x: activePlusNode.position.x,
+      y: activePlusNode.position.y,
+    };
+  } else {
+    newNode.position = position;
+  }
+  console.log(activePlusNode);
+  const isInSubFlow =
+    activePlusNode?.id.includes("then") || activePlusNode?.id.includes("else");
+  if (isInSubFlow) {
+    newNode.extent = "parent";
+    newNode.parentNode = activePlusNode.parentNode;
+  }
   newNodes.push(newNode);
 
   if (type === "options") {
