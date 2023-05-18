@@ -17,9 +17,9 @@ import { OptionsNode } from './nodes/OptionsNode';
 import { generateNodeObj } from '../utils/generateNodeObj';
 import { IfNode } from './nodes/IfNode/IfNode';
 import { InternalHandler } from './nodes/InternalHandler';
+import { mergeNodeToFlow, moveNodes } from '../utils/mergingFunctions';
 
 const initialNodes=[ ]
-const displacementDistance = 75
 
 export default function Flow() {
   const { addEdges,  getIntersectingNodes } = useReactFlow();
@@ -86,83 +86,18 @@ export default function Flow() {
         })
   }
   
+   
+
   function createIfIntersectsPlusNode(node){
     const connectingEdges = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
     if (connectingEdges.length>0)return
     
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
-      const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
-      const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
-
-      if(!inputEdge || !outputEdge )return
-        
-      const childNode = nodes.find(node => node.id === outputEdge.target)
-        
-      const newPlusButtonId = `plus-${(new Date()).getTime()}`  
-     
-      const newNodeWidth = node.width || nodeSizes[node.data.shape].width
-      const plusNodeWidth = interNodes[0].width || nodeSizes.plus.width
-      //const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
-     
-      const bottomPlus = {
-        id: newPlusButtonId,
-        type:'plusNode',
-        position:{
-          //x:childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2,
-          x:interNodes[0].position.x,
-          y:childNode.position.y + displacementDistance + zoom*32},
-        deletable:false,
-        data: {
-          shape: "plus"
-        }
-      }
-
-      // console.log('parent plus', interNodes[0].position.x)
-      // console.log('new plus',childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2)
-
-      //node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
-      //node.position.x = interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)
-      //console.log(interNodes,nodes) 
-      
-      setNodes(nodes=>[...nodes, bottomPlus].map(nd=>{
-        if(nd.id===node.id){
-          return {...nd, position:{
-            y: interNodes[0].position.y + displacementDistance + 15*zoom,
-            x: interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)/2
-          }}
-        }return nd
-      }))
-      
-
-
-      moveNodes(childNode,'down')
-      setEdges(edges=>{
-        const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
-        const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, source:interNodes[0].id, target:node.id}
-        newEdges.push(edgeA)
-        const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, source:node.id, target:newPlusButtonId}
-        newEdges.push(edgeB)
-        const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, source:newPlusButtonId, target:outputEdge.target}
-        newEdges.push(edgeC)
-        return newEdges
-      })    
+      mergeNodeToFlow({plusNode:interNodes[0], newNode:node, edges, nodes, setEdges, setNodes, zoom})   
     }
   }
 
-
-  function moveNodes(node,yDirection='up'){ 
-    const mult = yDirection!=='up'? 1:-1
-    setNodes(nodes=>nodes.map(nd=>{
-      if(nd.id===node.id){
-        return {...nd, position:{x:nd.position.x, y:nd.position.y+ (displacementDistance*2 + zoom*40)*mult}}
-      }return nd
-    }))
-    const outgoingEdge = edges.find(edg=>edg.source===node.id)
-    if(!outgoingEdge)return
-    const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
-    moveNodes(childNode, yDirection)
-  }
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -205,7 +140,6 @@ export default function Flow() {
   }
  
   function onNodeDelete(node){
-
     const upperEdge = edges.find(edg=> edg.target===node.id)
     const bottomEdge = edges.find(edg=>edg.source===node.id )
 
@@ -235,7 +169,7 @@ export default function Flow() {
     setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
 
     const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
-    moveNodes(newBottomNode,'up')
+    moveNodes(newBottomNode,'up', edges, nodes, setNodes, zoom)
   }
   
   function onEdgesDelete(edges){

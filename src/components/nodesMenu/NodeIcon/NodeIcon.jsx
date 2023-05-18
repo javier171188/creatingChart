@@ -13,7 +13,7 @@ import './styles.css'
 export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu=false}){
    const activePlusNodeId = useSelector(state=>state.reactFlow.activePlusNodeId)
    const reactFlowInstance = useReactFlow()
-   const { addNodes,addEdges, getNode, setNodes } = reactFlowInstance
+   const { addNodes,addEdges, getEdges, getNode, setNodes } = reactFlowInstance
    
    const dispatch = useDispatch()
    const { x, y, zoom } = useViewport();
@@ -48,31 +48,30 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       if(isInPlusNodeMenu){
         //Icon is in a plus button menu
         handleClose()
-        //dispatch(setCreatedType(shape))
-
-        
-
-
+       
         const activePlusNode = getNode(activePlusNodeId)
 
-        const inputEdge = edges.find(edge=>edge.target===activePlusNode.id)
-        const outputEdge = edges.find(edge=>edge.source===activePlusNode.id)
+        //Merge
 
-        const position = {
-          x: activePlusNode.position.x,
-          y: activePlusNode.position.y,
-        };
+        // const edges = getEdges()
+        // const inputEdge = edges.find(edge=>edge.target===activePlusNodeId)
+        // const outputEdge = edges.find(edge=>edge.source===activePlusNodeId)
+
+        // const position = {
+        //   x: activePlusNode.position.x,
+        //   y: activePlusNode.position.y,
+        // };
         
-        const {newEdges,newNodes} = generateNodeObj({ type:shape, activePlusNode})
+        // const {newEdges,newNodes} = generateNodeObj({ type:shape, activePlusNode})
 
-        setNodes(nds=>nds.map(nd=>{ 
-          if(nd.id!==newNodes[0].id){
-            return {...nd, selected:false}
-          }
-          return nd
-        }))
-        addNodes(newNodes) 
-        addEdges(newEdges)
+        // setNodes(nds=>nds.map(nd=>{ 
+        //   if(nd.id!==newNodes[0].id){
+        //     return {...nd, selected:false}
+        //   }
+        //   return nd
+        // }))
+        // addNodes(newNodes) 
+        // addEdges(newEdges)
         dispatch(setLatestNodeId(newNodes[0].id))
 
       }else{
