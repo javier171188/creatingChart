@@ -33,6 +33,16 @@ export function generateNodeObj({ position, type }) {
     };
     newNodes.push(elseNode);
 
+    const intHandlerId = `handler-${newId}-${new Date().getTime()}`;
+    const intHandler = {
+      id: intHandlerId,
+      type: "internalHandler",
+      position: { x: 69, y: 2 * plusButtonsY },
+      selected: false,
+      parentNode: newId,
+    };
+    newNodes.push(intHandler);
+
     const ifThenEdgeId = `${newId}-${thenId}-${new Date().getTime()}`;
     const ifThenEdge = {
       id: ifThenEdgeId,
@@ -50,6 +60,24 @@ export function generateNodeObj({ position, type }) {
       sourceHandle: "right",
     };
     newEdges.push(ifElseEdge);
+
+    const plThenFlEdgeId = `${thenId}-${intHandlerId}-${new Date().getTime()}`;
+    const plThenFlEdge = {
+      id: plThenFlEdgeId,
+      source: thenId,
+      target: intHandlerId,
+      type: "step",
+    };
+    newEdges.push(plThenFlEdge);
+
+    const plElseFlEdgeId = `${elseId}-${intHandlerId}-${new Date().getTime()}`;
+    const plElseFlEdge = {
+      id: plElseFlEdgeId,
+      source: elseId,
+      target: intHandlerId,
+      type: "step",
+    };
+    newEdges.push(plElseFlEdge);
   }
 
   return { newEdges, newNodes };
