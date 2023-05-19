@@ -8,6 +8,7 @@
   align-items: center;
   height: 40px;
   width: 45px;
+  z-index: 99999;
 }
 
 .label-container:hover {

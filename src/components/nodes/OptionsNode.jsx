@@ -1,10 +1,11 @@
 import { Handle, Position } from "../../../../../react-flow/packages/reactflow/dist/esm"
 
 export function OptionsNode({data}){
-    const {label} = data
-
+    const {height} = data
+    
+    
     return <>
-        <div style={styles.nodeContainer}>  
+        <div style={{...styles.nodeContainer,height}}>  
         </div>
        <Handle type="target" position={Position.Top} id="top-target"  />
        <Handle type="source" position={Position.Bottom} id="bottom-source" />
@@ -16,7 +17,6 @@ const styles = {
     nodeContainer:{
         placeItems:'center',
         borderStyle:'solid',
-        height: 250,
         width: 250,
         borderColor:'#ba96ec',
         borderWidth: 1,

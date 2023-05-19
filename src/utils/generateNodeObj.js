@@ -6,7 +6,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
     id: newId,
     type: type === "options" ? type : "figure",
     position,
-    data: { label: `${type} node`, shape: type },
+    data: { label: `${type} node`, shape: type, height: 250 },
     selected: false,
   };
   newNodes.push(newNode);
@@ -21,7 +21,7 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       selected: false,
       parentNode: newId,
       extent: "parent",
-      data: { label: "if: ", shape: "diamond", shownText: "If" },
+      data: {},
       //draggable: false,
       // selectable: false,
       deletable: false,

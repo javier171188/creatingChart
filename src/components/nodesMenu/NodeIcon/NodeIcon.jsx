@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineStar } from 'react-icons/ai';
-import { useReactFlow, useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
+import { useUpdateNodeInternals, useReactFlow, useViewport } from '../../../../../../react-flow/packages/reactflow/dist/esm';
 import {BsCircle,BsDiamond,BsSquare, BsTriangle} from 'react-icons/bs'
 import {MdOutlineRectangle} from 'react-icons/md'
 import {TbTriangleInverted} from 'react-icons/tb'
@@ -22,6 +22,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
    const edges = getEdges()
    const dispatch = useDispatch()
    const { x, y, zoom } = useViewport();
+   const updateNodeInternals = useUpdateNodeInternals();
 
     const onDragStart = (event) => {
         event.dataTransfer.setData('application/reactflow', shape);
@@ -62,10 +63,10 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       const outgoingEdge = edges.find(edg=>edg.source===node.id)
       if(!outgoingEdge)return
       const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
-      setTimeout(()=>moveNodes(childNode, yDirection, nodeHeight), 0)
+      setTimeout(()=>moveNodes(childNode, yDirection, nodeHeight), 10)
       
     }
-
+    
     function handleClick(){
       if(isInPlusNodeMenu){
         //Icon is in a plus button menu
@@ -78,9 +79,10 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         const newPlusButtonId = `plus-${(new Date()).getTime()}`  
 
         const newNodeWidth = nodeSizes[shape].width
-        const newNodeHeigh = nodeSizes[shape].heigh
+        const newNodeHeight = nodeSizes[shape].height
         
         const plusNodeWidth = activePlusNode.width || nodeSizes.plus.width
+        const plusNodeHeight = activePlusNode.width || nodeSizes.plus.width
         //const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
       
         const bottomPlus = {
@@ -88,16 +90,14 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           type:'plusNode',
           position:{
             x:activePlusNode.position.x ,
-            y:childNode.position.y + displacementDistance/2 * zoom + newNodeHeigh },
+            y:childNode.position.y + displacementDistance/2 * zoom + newNodeHeight },
           deletable:false,
           data: {
             shape: "plus"
           }
         }
 
-        
-
-        moveNodes(childNode, 'down', newNodeHeigh)
+        moveNodes(childNode, 'down', newNodeHeight)
         const position = {
           x: activePlusNode.position.x + zoom*(plusNodeWidth - newNodeWidth)/2,
           y: activePlusNode.position.y + displacementDistance * zoom
@@ -119,6 +119,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
             //nd.extent = 'parent'
             nd.parentNode = activePlusNode.parentNode
             nd.expandParent = true
+            nd.extent = "parent"
             return nd
           })
           nodeType = 'step'
@@ -127,15 +128,27 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
             return ed
           })
           
+
           setNodes(nds=>nds.map(nd=>{
             if(nd.id === activePlusNode.parentNode){
-              nd.height = nd.height+ 400
+              return {...nd, 
+                    data:{
+                      ...nd.data, 
+                      height:nd.data.height+ plusNodeHeight + newNodeHeight + zoom* displacementDistance
+                    }}
+            }
+            if(nd.id.startsWith('handler-bottom')&&nd.parentNode===activePlusNode.parentNode){
+              return {...nd, 
+                    position:{
+                      ...nd.position, 
+                      y:nd.position.y + plusNodeHeight + newNodeHeight + zoom* displacementDistance
+                    }}
             }
             return nd
           }))
         }
         addNodes(newNodes) 
-
+        
         const oldPlusToNodeEdge = {
           id: `plus-${activePlusNodeId}-${newNodes[0].id}-${(new Date()).getTime()}`,
           source: activePlusNodeId, target: newNodes[0].id,
