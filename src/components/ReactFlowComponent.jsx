@@ -21,7 +21,7 @@ const initialNodes=[ ]
 const displacementDistance = 75
 
 export default function Flow() {
-  const { getIntersectingNodes, project } = useReactFlow();
+  const { getIntersectingNodes, addEdges } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -184,16 +184,15 @@ export default function Flow() {
         y: event.clientY - reactFlowBounds.top-37,
       });
       
-      const newNodes = generateNodeObj({position, type})
+      const {newNodes, newEdges} = generateNodeObj({position, type})
       setNodes((nds) => {
         nds = nds.map(node=> ({...node, selected:false}))
         return nds.concat(newNodes)});
+      addEdges(newEdges)
       dispatch(setLatestNodeId(newNodes[0].id))
     },
     [reactFlowInstance, setNodes]
   );
-
-
 
    
   function onNodeDragStop(event, node){
@@ -230,7 +229,9 @@ export default function Flow() {
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     
-    const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, source:parentPlusNode.id, target:bottomNodeEdge.target}
+    const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, 
+      source:parentPlusNode.id, 
+      target:bottomNodeEdge.target}
     setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
 
     const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
