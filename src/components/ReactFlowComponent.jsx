@@ -114,22 +114,20 @@ export default function Flow() {
         deletable:false,
         data: {
           shape: "plus"
-        }
+        },
+        parentNode: interNodes[0].parentNode,
       }
 
-      // console.log('parent plus', interNodes[0].position.x)
-      // console.log('new plus',childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2)
-
-      //node.position.y = interNodes[0].position.y + displacementDistance + 15*zoom
-      //node.position.x = interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)
-      //console.log(interNodes,nodes) 
+    
       
       setNodes(nodes=>[...nodes, bottomPlus].map(nd=>{
         if(nd.id===node.id){
           return {...nd, position:{
             y: interNodes[0].position.y + displacementDistance + 15*zoom,
             x: interNodes[0].position.x + zoom*(plusNodeWidth - newNodeWidth)/2
-          }}
+          },
+          parentNode: interNodes[0].parentNode
+        }
         }return nd
       }))
       
@@ -138,11 +136,21 @@ export default function Flow() {
       moveNodes(childNode,'down')
       setEdges(edges=>{
         const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
-        const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, source:interNodes[0].id, target:node.id}
+        const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, 
+              source:interNodes[0].id, 
+              target:node.id,
+              type:'step'
+            }
         newEdges.push(edgeA)
-        const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, source:node.id, target:newPlusButtonId}
+        const edgeB = {id:`${node.id}-plus-${(new Date()).getTime()}`, 
+               source:node.id, 
+               target:newPlusButtonId,
+               type:'step'}
         newEdges.push(edgeB)
-        const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, source:newPlusButtonId, target:outputEdge.target}
+        const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, 
+               source:newPlusButtonId, 
+               target:outputEdge.target,
+               type:'step'}
         newEdges.push(edgeC)
         return newEdges
       })    
