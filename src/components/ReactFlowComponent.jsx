@@ -101,7 +101,10 @@ export default function Flow() {
       const newPlusButtonId = `plus-${(new Date()).getTime()}`  
      
       const newNodeWidth = node.width || nodeSizes[node.data.shape].width
+      const newNodeHeight = node.height || nodeSizes[node.data.shape].height
       const plusNodeWidth = interNodes[0].width || nodeSizes.plus.width
+      const plusNodeHeight = interNodes[0].height || nodeSizes.plus.width
+      const plusNodeY = interNodes[0].position.y + displacementDistance + 20*zoom+ newNodeHeight + plusNodeHeight
       //const childNodeWidth = childNode.width || nodeSizes[childNode.data.shape].width 
      
       const bottomPlus = {
@@ -110,7 +113,7 @@ export default function Flow() {
         position:{
           //x:childNode.position.x + zoom*(childNodeWidth - plusNodeWidth)/2,
           x:interNodes[0].position.x,
-          y:childNode.position.y + displacementDistance + zoom*32},
+          y:plusNodeY},
         deletable:false,
         data: {
           shape: "plus"
@@ -131,9 +134,10 @@ export default function Flow() {
         }return nd
       }))
       
-
-
-      moveNodes(childNode,'down')
+      
+      moveNodes(childNode,'down', plusNodeY + newNodeHeight)
+      
+     
       setEdges(edges=>{
         const newEdges = edges.filter(edge=>  outputEdge.id!==(edge.id))
         const edgeA = {id:`fromPlus-${node.id}-${(new Date()).getTime()}`, 
@@ -158,7 +162,22 @@ export default function Flow() {
   }
 
 
-  function moveNodes(node,yDirection='up'){ 
+  function moveNodes(node,yDirection='up', limit){ 
+    // const parentEdges = edges.filter(edg=>edg.target===node.id)
+    // const parentNodesIds = parentEdges.map(edg=> edg.source)
+    // const parentNodes = nodes.filter(nd=>parentNodesIds.includes(nd.id))
+    
+    // const alreadyDown = parentNodes.find(nd=>{
+    //   const currentParentY = nd.position.y
+    //   return currentParentY + (displacementDistance*2 + zoom*40) > node.position.y
+    // })
+
+    // console.log(node.position)
+    //if (alreadyDown) return
+
+    
+    if (limit && node.position.y > limit) return
+    console.log('moved')
     const mult = yDirection!=='up'? 1:-1
     setNodes(nodes=>nodes.map(nd=>{
       if(nd.id===node.id){
