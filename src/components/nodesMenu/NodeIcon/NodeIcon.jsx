@@ -70,7 +70,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       if(isInPlusNodeMenu){
         //Icon is in a plus button menu
         handleClose()
-        //dispatch(setCreatedType(shape))
+        
         const activePlusNode = getNode(activePlusNodeId)
         const childEdge = edges.find(ed=> ed.source === activePlusNode.id)
         const childNode = nodes.find(nd=> nd.id === childEdge.target)
@@ -95,6 +95,8 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           }
         }
 
+        
+
         moveNodes(childNode, 'down', newNodeHeigh)
         const position = {
           x: activePlusNode.position.x + zoom*(plusNodeWidth - newNodeWidth)/2,
@@ -110,22 +112,49 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
         //   return nd
         // }))
         newNodes.push(bottomPlus)
+
+        let nodeType = 'default'
+        if(activePlusNode.parentNode){
+          newNodes = newNodes.map( nd => {
+            //nd.extent = 'parent'
+            nd.parentNode = activePlusNode.parentNode
+            nd.expandParent = true
+            return nd
+          })
+          nodeType = 'step'
+          newEdges = newEdges.map(ed =>{
+            ed.type = nodeType
+            return ed
+          })
+          
+          setNodes(nds=>nds.map(nd=>{
+            if(nd.id === activePlusNode.parentNode){
+              nd.height = nd.height+ 400
+            }
+            return nd
+          }))
+        }
         addNodes(newNodes) 
 
         const oldPlusToNodeEdge = {
           id: `plus-${activePlusNodeId}-${newNodes[0].id}-${(new Date()).getTime()}`,
-          source: activePlusNodeId, target: newNodes[0].id
+          source: activePlusNodeId, target: newNodes[0].id,
+          type:nodeType
         }
         const nodeToNewPlusEdge = {
           id: `plus-${newNodes[0].id}-${bottomPlus.id}-${(new Date()).getTime()}`,
-          source: newNodes[0].id, target: bottomPlus.id
+          source: newNodes[0].id, target: bottomPlus.id,
+          type:nodeType
         }
         const newPlusToChildEdge = {
           id: `plus-${bottomPlus.id}-${childNode.id}-${(new Date()).getTime()}`,
-          source: bottomPlus.id, target: childNode.id
+          source: bottomPlus.id, target: childNode.id,
+          type:nodeType
         }
         setEdges(eds => {
-          const createdEdges = eds.filter(ed=>ed.id!==childEdge.id)
+          const createdEdges = eds.filter(ed=>ed.id!==childEdge.id).map(ed =>{
+            ed.type = nodeType
+            return ed})
           return [...newEdges, ...createdEdges, 
               oldPlusToNodeEdge, 
               nodeToNewPlusEdge, 

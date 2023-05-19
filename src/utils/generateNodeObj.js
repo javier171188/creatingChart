@@ -79,6 +79,8 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       source: topHandlerId,
       target: ifNodeId,
       type: "step",
+      parentNode: newId,
+      extent: "parent",
     };
     newEdges.push(topEdge);
 
@@ -87,6 +89,9 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       source: ifNodeId,
       target: thenId,
       type: "step",
+      parentNode: newId,
+      //extent: "parent",
+      expandParent: true,
     };
     newEdges.push(thenEdge);
     const elseEdge = {
@@ -95,6 +100,8 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       target: elseId,
       sourceHandle: "right",
       type: "step",
+      parentNode: newId,
+      extent: "parent",
     };
     newEdges.push(elseEdge);
     const thenContinue = {
@@ -102,6 +109,10 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       source: thenId,
       target: bottomHandlerId,
       type: "step",
+      parentNode: newId,
+      extent: "parent",
+      parentNode: newId,
+      extent: "parent",
     };
     newEdges.push(thenContinue);
 
@@ -110,6 +121,8 @@ export function generateNodeObj({ position, type, parentNodeId }) {
       source: elseId,
       target: bottomHandlerId,
       type: "step",
+      parentNode: newId,
+      extent: "parent",
     };
     newEdges.push(elseContinue);
   }
