@@ -37,7 +37,7 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
           return <TbTriangleInverted/>
         case 'diamond':
           return <BsDiamond/>
-        case 'options':
+        case 'ifNode':
           return <ImTree/>
         default:
           return <AiOutlineStar size={size} />
@@ -48,7 +48,6 @@ export function LeftBarIcon({handleClose,shape='star', size=20, isInPlusNodeMenu
       if(isInPlusNodeMenu){
         //Icon is in a plus button menu
         handleClose()
-        //dispatch(setCreatedType(shape))
         const activePlusNode = getNode(activePlusNodeId)
         const position = reactFlowInstance.project({
           x: activePlusNode.position.x *zoom + x - 22,

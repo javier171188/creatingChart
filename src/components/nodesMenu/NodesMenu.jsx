@@ -23,7 +23,7 @@ export default ({handleClose, isInPlusNodeMenu}) => {
         <LeftBarIcon shape='triangle' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='triangleDown' size={17} handleClose={handleClose}isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon shape='diamond' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
-        <LeftBarIcon shape='options' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
+        <LeftBarIcon shape='ifNode' handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/>
         <LeftBarIcon handleClose={handleClose} isInPlusNodeMenu={isInPlusNodeMenu}/> 
