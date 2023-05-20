@@ -256,7 +256,7 @@ export default function Flow() {
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
-    
+    if (!bottomNodeEdge) return
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, 
       source:parentPlusNode.id, 
       target:bottomNodeEdge.target}
