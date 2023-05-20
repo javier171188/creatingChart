@@ -228,6 +228,7 @@ export default function Flow() {
   }
   
   function onNodesDelete(nodes){
+    console.log(nodes)
     nodes.forEach(node=>onNodeDelete(node))
   }
  
@@ -253,14 +254,17 @@ export default function Flow() {
     }
     
     const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
+    
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
     if (!bottomNodeEdge) return
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, 
       source:parentPlusNode.id, 
-      target:bottomNodeEdge.target}
-    setEdges(edges=>[...edges.filter(edg=>edg.target!==bottomNodeEdge.target),newEdge])
+      target:bottomNodeEdge.target,
+      type:'step'
+    }
+    setEdges(edges=>[...edges.filter(edg=>edg.source!==node.id),newEdge])
 
     const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
     moveNodes(newBottomNode,'up')
