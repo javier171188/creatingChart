@@ -1,4 +1,4 @@
-export function generateNodeObj({ position, type }) {
+export function generateNodeObj({ position, type, parentNodeId }) {
   const newNodes = [];
   const newEdges = [];
   const newId = `${type}-${new Date().getTime()}`;
@@ -8,6 +8,7 @@ export function generateNodeObj({ position, type }) {
     position,
     data: { label: `${type} node`, shape: type },
     selected: false,
+    parentNode: parentNodeId,
   };
   newNodes.push(newNode);
   if (type === "ifNode") {

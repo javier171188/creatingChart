@@ -177,7 +177,6 @@ export default function Flow() {
 
     
     if (limit && node.position.y > limit) return
-    console.log('moved')
     const mult = yDirection!=='up'? 1:-1
     setNodes(nodes=>nodes.map(nd=>{
       if(nd.id===node.id){
