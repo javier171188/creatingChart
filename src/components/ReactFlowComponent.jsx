@@ -22,7 +22,7 @@ const initialNodes=[ ]
 const displacementDistance = 75
 
 export default function Flow() {
-  const { getIntersectingNodes, addEdges } = useReactFlow();
+  const { addEdges, deleteElements, getIntersectingNodes } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -88,11 +88,12 @@ export default function Flow() {
   function createIfIntersectsPlusNode(node){
     const connectingEdges = edges.filter( edge=> edge.source===node.id || edge.target===node.id)
     if (connectingEdges.length>0)return
-    
+    //console.log(node)
     const interNodes = getIntersectingNodes(node)
     if(interNodes.length>0&&interNodes[0].id.startsWith('plus-')){
       const inputEdge = edges.find(edge=>edge.target===interNodes[0].id)
       const outputEdge = edges.find(edge=>edge.source===interNodes[0].id)
+      //console.log(interNodes)
 
       if(!inputEdge || !outputEdge )return
         
@@ -151,7 +152,7 @@ export default function Flow() {
                target:newPlusButtonId,
                type:'step'}
         newEdges.push(edgeB)
-        const edgeC = {id:`fromPlus-${inputEdge.target}-${(new Date()).getTime()}`, 
+        const edgeC = {id:`fromPlus-${outputEdge.target}-${(new Date()).getTime()}`, 
                source:newPlusButtonId, 
                target:outputEdge.target,
                type:'step'}
@@ -228,13 +229,12 @@ export default function Flow() {
   }
   
   function onNodesDelete(nodes){
-    console.log(nodes)
     nodes.forEach(node=>onNodeDelete(node))
   }
  
   function onNodeDelete(node){
     const upperEdge = edges.find(edg=> edg.target===node.id)
-    const bottomEdge = edges.find(edg=>edg.source===node.id )
+    const bottomEdge = edges.find(edg=>edg.source===node.id)
 
     if(!bottomEdge && !upperEdge)return
    
@@ -252,23 +252,25 @@ export default function Flow() {
       setEdges(edges=>edges.filter(edg=>edg.id!==bottomEdge.id &&edg.id!==remainingEdge.id))
       return
     }
-    
     const parentPlusNode = nodes.find(nd=> nd.id === upperEdge.source)
-    
     const childPlusNode = nodes.find(nd=>nd.id===bottomEdge.target)
     const bottomNodeEdge = edges.find(edg=>edg.source===childPlusNode.id)
     setNodes(nds=>nds.filter(nd=>nd.id!==childPlusNode.id))
+    
     if (!bottomNodeEdge) return
     const newEdge = {id:`fromPlus-${bottomNodeEdge.target}-${(new Date()).getTime()}`, 
       source:parentPlusNode.id, 
       target:bottomNodeEdge.target,
       type:'step'
     }
-    setEdges(edges=>[...edges.filter(edg=>edg.source!==node.id),newEdge])
+    setEdges(edges=>[...edges.filter(edg=> (edg.id!==upperEdge.id && 
+                                            edg.id!==bottomEdge.id && 
+                                            edg.id!==bottomNodeEdge.id)), newEdge])
 
     const newBottomNode = nodes.find(nd=>nd.id === bottomNodeEdge.target)
     moveNodes(newBottomNode,'up')
   }
+  
   
   function onEdgesDelete(edges){
     //TODO: Distinguish when more than one edge have been manually deleted from two edges have

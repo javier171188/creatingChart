@@ -82,7 +82,7 @@ export function FigureNode(props){
         setShowingInput(false)
     }
     return <>
-        <div>
+        <div >
         <FigureNodeContainer 
             selected={selected} 
             shape={shape}>
