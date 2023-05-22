@@ -164,19 +164,6 @@ export default function Flow() {
 
 
   function moveNodes(node,yDirection='up', limit){ 
-    // const parentEdges = edges.filter(edg=>edg.target===node.id)
-    // const parentNodesIds = parentEdges.map(edg=> edg.source)
-    // const parentNodes = nodes.filter(nd=>parentNodesIds.includes(nd.id))
-    
-    // const alreadyDown = parentNodes.find(nd=>{
-    //   const currentParentY = nd.position.y
-    //   return currentParentY + (displacementDistance*2 + zoom*40) > node.position.y
-    // })
-
-    // console.log(node.position)
-    //if (alreadyDown) return
-
-    
     if (limit && node.position.y > limit) return
     const mult = yDirection!=='up'? 1:-1
     setNodes(nodes=>nodes.map(nd=>{
@@ -187,7 +174,8 @@ export default function Flow() {
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
     if(!outgoingEdge)return
     const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
-    moveNodes(childNode, yDirection)
+    const childNodeHeight = childNode.height || nodeSizes[childNode.data.shape]?.height
+    moveNodes(childNode, yDirection, limit + childNodeHeight+displacementDistance)
   }
 
   const onDragOver = useCallback((event) => {
