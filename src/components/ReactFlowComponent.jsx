@@ -22,7 +22,7 @@ const initialNodes=[ ]
 const displacementDistance = 75
 
 export default function Flow() {
-  const { addEdges, deleteElements, getIntersectingNodes } = useReactFlow();
+  const { addEdges, getNodes, getIntersectingNodes } = useReactFlow();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -165,12 +165,28 @@ export default function Flow() {
 
   function moveNodes(node,yDirection='up', limit){ 
     if (limit && node.position.y > limit) return
+    
     const mult = yDirection!=='up'? 1:-1
-    setNodes(nodes=>nodes.map(nd=>{
-      if(nd.id===node.id){
-        return {...nd, position:{x:nd.position.x, y:nd.position.y+ (displacementDistance*2 + zoom*40)*mult}}
-      }return nd
-    }))
+    const newY = node.position.y+ (displacementDistance*2 + zoom*40)*mult
+    
+    let lowerNodeY
+    if(node.id.startsWith('handler-ifNode') && yDirection==='up'){
+      const incomingEdges = edges.filter(edg=> edg.target===node.id)
+      const parentNodesIds = incomingEdges.map(edg=> edg.source)
+      const parentNodes = nodes.filter(nd=> parentNodesIds.includes(nd.id))
+      const parentsY = parentNodes.map(nd=>nd.position.y)
+      lowerNodeY = Math.max(...parentsY)
+    }
+
+    if(newY > lowerNodeY +40  || !lowerNodeY){
+      setNodes(nodes=>nodes.map(nd=>{
+        if(nd.id===node.id){
+          return {...nd, position:{x:nd.position.x, y:newY}}
+        }return nd
+      }))
+    }
+
+    
     const outgoingEdge = edges.find(edg=>edg.source===node.id)
     if(!outgoingEdge)return
     const childNode = nodes.find(nd=> nd.id===outgoingEdge.target)
